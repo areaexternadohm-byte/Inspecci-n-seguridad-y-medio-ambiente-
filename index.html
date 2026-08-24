@@ -4,51 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dohm S.A. - Inspección Oficial</title>
-    <!-- Librería para generar el PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; }
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); margin: 0; padding-bottom: 110px; color: var(--text); }
-        
         header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         header small { opacity: 0.8; font-size: 0.75rem; }
-
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 15px 10px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; outline: none; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
-
         .container { padding: 12px; max-width: 650px; margin: auto; }
         .card { background: var(--white); border-radius: 10px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; }
         h3 { margin: 0; font-size: 0.9rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
-
         .field { margin-bottom: 12px; }
         label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #666; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background: #fff; }
-
         .check-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
         .item-desc { flex: 1; font-size: 0.85rem; padding-right: 10px; color: #444; }
         .item-pts { font-size: 0.7rem; color: #999; font-weight: bold; }
         .input-hallazgo { width: 65px; text-align: center; border: 2px solid var(--accent) !important; background: #fffdf2 !important; font-weight: bold; height: 40px; border-radius: 5px; }
-
-        /* EPP Personal */
         .epp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
         .epp-box { background: #f9f9f9; padding: 5px; border-radius: 6px; border: 1px solid #eee; text-align: center; }
         .epp-box label { font-size: 0.6rem; margin-bottom: 2px; color: #888; }
         .epp-box select { padding: 4px; font-size: 0.8rem; height: auto; }
-
-        /* Footer */
+        .legend { font-size: 0.75rem; background: #ebf2f7; padding: 10px; border-radius: 8px; border: 1px solid #d1dbe5; margin-bottom: 15px; }
+        .legend strong { color: var(--primary); }
         .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.2); }
         .stat-val { font-size: 1.3rem; font-weight: bold; color: #f1c40f; }
-
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
-        /* Botones */
         .btn-green { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .btn-delete { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; }
-        
         .no-pdf { display: block; }
         #msg-loading { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 10px; }
     </style>
@@ -69,7 +57,7 @@
     </nav>
 
     <div class="container">
-        <!-- SECCIÓN 1: DATOS CABECERA -->
+        <!-- SECCIÓN 1: GENERAL -->
         <div id="t1" class="tab-content active">
             <div class="card">
                 <h3>Información de Campo</h3>
@@ -80,32 +68,34 @@
                     <div class="field" style="flex:1"><label>Fecha</label><input type="date"></div>
                     <div class="field" style="flex:1"><label>Hora</label><input type="time"></div>
                 </div>
-                <div class="field">
-                    <label>Nivel de Riesgo</label>
-                    <select><option>Bajo</option><option>Medio</option><option>Alto</option></select>
-                </div>
             </div>
         </div>
 
-        <!-- SECCIÓN 2: INSPECCIÓN (LOS 56 ITEMS) -->
+        <!-- SECCIÓN 2: INSPECCIÓN -->
         <div id="t2" class="tab-content">
             <div id="items-container"></div>
         </div>
 
-        <!-- SECCIÓN 3: EPP POR PERSONA -->
+        <!-- SECCIÓN 3: EPP -->
         <div id="t3" class="tab-content">
+            <div class="legend">
+                <strong>Referencia EPP:</strong><br>
+                <b>S:</b> Seguro (Sin correcciones) | 
+                <b>I:</b> Inseguro (Requiere corrección) | 
+                <b>NA:</b> No Aplica
+            </div>
             <div id="workers-list"></div>
             <button class="btn-green no-pdf" onclick="addWorker()">+ Agregar Operario</button>
         </div>
 
-        <!-- SECCIÓN 4: CIERRE -->
+        <!-- SECCIÓN 4: FINAL -->
         <div id="t4" class="tab-content">
             <div class="card">
-                <h3>Observaciones Finales</h3>
-                <div class="field"><label>Condiciones / Actitudes Inseguras Detectadas</label><textarea rows="3"></textarea></div>
-                <div class="field"><label>Medidas Correctivas Propuestas</label><textarea rows="3"></textarea></div>
+                <h3>Observaciones</h3>
+                <div class="field"><label>Actitudes/Condiciones Inseguras</label><textarea rows="3"></textarea></div>
+                <div class="field"><label>Medidas Correctivas</label><textarea rows="3"></textarea></div>
                 <button class="btn-green no-pdf" id="pdf-trigger" onclick="makePDF()">DESCARGAR REPORTE PDF</button>
-                <div id="msg-loading">Generando reporte, por favor espere...</div>
+                <div id="msg-loading">Generando reporte...</div>
             </div>
         </div>
     </div>
@@ -131,7 +121,6 @@
         { id: 11, c: "Protección Personal", d: "No uso de ropa de tela ignífuga", p: 10, x: false },
         { id: 12, c: "Protección Personal", d: "No uso de arnés de seguridad (x)", p: 50, x: true },
         { id: 13, c: "Protección Personal", d: "No uso de arnés amarrado a punto fijo (x)", p: 50, x: true },
-        
         { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas no autorizadas (x)", p: 50, x: true },
         { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo / OT (x)", p: 50, x: true },
         { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (x)", p: 50, x: true },
@@ -149,10 +138,9 @@
         { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto de herramientas / equipos", p: 15, x: false },
         { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificación / sin pedestales", p: 20, x: false },
         { id: 30, c: "Actitudes Inseguras", d: "Transgresión de vallados (x)", p: 30, x: true },
-        { id: 31, c: "Actitudes Inseguras", d: "Exposición de manos (atrapamientos, golpes, etc)", p: 30, x: false },
+        { id: 31, c: "Actitudes Inseguras", d: "Exposición de manos (atrapamientos, golpes)", p: 30, x: false },
         { id: 32, c: "Actitudes Inseguras", d: "Exposición de pies/piernas (atrapamientos, golpes)", p: 30, x: false },
         { id: 33, c: "Actitudes Inseguras", d: "Área de trabajo sin definir o desconocida", p: 30, x: false },
-
         { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrectamente (x)", p: 30, x: true },
         { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (x)", p: 30, x: true },
         { id: 36, c: "Condiciones Inseguras", d: "Tableros portátiles sin protección diferencial", p: 20, x: false },
@@ -162,23 +150,20 @@
         { id: 40, c: "Condiciones Inseguras", d: "Máquinas herramientas sin protecciones (x)", p: 15, x: true },
         { id: 41, c: "Condiciones Inseguras", d: "Excavación sin señalizar / vallar (x)", p: 20, x: true },
         { id: 42, c: "Condiciones Inseguras", d: "Equipos / sistemas de izaje deficientes (x)", p: 50, x: true },
-        { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos / instalaciones (x)", p: 50, x: true },
+        { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos (x)", p: 50, x: true },
         { id: 44, c: "Condiciones Inseguras", d: "Cilindros de gases no asegurados", p: 15, x: false },
         { id: 45, c: "Condiciones Inseguras", d: "Depósitos de combustibles inadecuados (x)", p: 20, x: true },
         { id: 46, c: "Condiciones Inseguras", d: "Falta de orden y limpieza", p: 10, x: false },
-
-        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en áreas de trabajo (x)", p: 10, x: true },
+        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames (x)", p: 10, x: true },
         { id: 48, c: "Medio Ambiente", d: "Inadecuada disposición de residuos (x)", p: 20, x: true },
-        { id: 49, c: "Medio Ambiente", d: "Falta de medios para contención de derrames", p: 15, x: false },
-        { id: 50, c: "Medio Ambiente", d: "Desconocimiento de aspectos ambientales", p: 15, x: false },
-
+        { id: 49, c: "Medio Ambiente", d: "Falta de medios contención derrames", p: 15, x: false },
+        { id: 50, c: "Medio Ambiente", d: "Desconocimiento aspectos ambientales", p: 15, x: false },
         { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true },
         { id: 52, c: "Transporte", d: "Sin alarma de retroceso (x)", p: 50, x: true },
         { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (x)", p: 30, x: true },
-
-        { id: 54, c: "Accidentología", d: "Accidente o primer auxilio riesgo bajo", p: 2.5, x: false },
-        { id: 55, c: "Accidentología", d: "Accidente o primer auxilio riesgo medio", p: 5, x: false },
-        { id: 56, c: "Accidentología", d: "Accidente o primer auxilio riesgo alto", p: 10, x: false }
+        { id: 54, c: "Accidentología", d: "Accidente Riesgo Bajo", p: 2.5, x: false },
+        { id: 55, c: "Accidentología", d: "Accidente Riesgo Medio", p: 5, x: false },
+        { id: 56, c: "Accidentología", d: "Accidente Riesgo Alto", p: 10, x: false }
     ];
 
     function renderItems() {
@@ -203,15 +188,7 @@
         card.className = 'card';
         const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
         let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
-        
-        card.innerHTML = `
-            <div class="epp-header">
-                <h3>Operario</h3>
-                <button class="btn-delete no-pdf" onclick="this.parentElement.parentElement.remove()">Eliminar</button>
-            </div>
-            <input type="text" placeholder="Nombre y Apellido">
-            <div class="epp-grid">${grid}</div>
-        `;
+        card.innerHTML = `<div class="epp-header"><h3>Operario</h3><button class="btn-delete no-pdf" onclick="this.parentElement.parentElement.remove()">Eliminar</button></div><input type="text" placeholder="Nombre y Apellido"><div class="epp-grid">${grid}</div>`;
         list.appendChild(card);
     }
 
@@ -240,19 +217,9 @@
         const area = document.getElementById('capture-area');
         document.getElementById('pdf-trigger').style.display = 'none';
         document.getElementById('msg-loading').style.display = 'block';
-        
-        // Mostrar todas las secciones para capturar todo el documento
         document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'block');
         document.querySelectorAll('.no-pdf').forEach(n => n.style.display = 'none');
-
-        const opt = {
-            margin: 0.3,
-            filename: 'Inspeccion_Dohm.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-
+        const opt = { margin: 0.3, filename: 'Inspeccion_Dohm.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
         html2pdf().set(opt).from(area).save().then(() => {
             document.getElementById('pdf-trigger').style.display = 'block';
             document.getElementById('msg-loading').style.display = 'none';

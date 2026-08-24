@@ -6,39 +6,53 @@
     <title>Dohm S.A. - Inspección Oficial</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; }
+        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; }
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); margin: 0; padding-bottom: 110px; color: var(--text); }
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-        header small { opacity: 0.8; font-size: 0.75rem; }
+        header { background: var(--primary); color: white; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        header small { opacity: 0.8; font-size: 0.7rem; }
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 15px 10px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; outline: none; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; outline: none; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
-        .container { padding: 12px; max-width: 650px; margin: auto; }
-        .card { background: var(--white); border-radius: 10px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        h3 { margin: 0; font-size: 0.9rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
-        .field { margin-bottom: 12px; }
-        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #666; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background: #fff; }
-        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
-        .item-desc { flex: 1; font-size: 0.85rem; padding-right: 10px; color: #444; }
-        .item-pts { font-size: 0.7rem; color: #999; font-weight: bold; }
-        .input-hallazgo { width: 65px; text-align: center; border: 2px solid var(--accent) !important; background: #fffdf2 !important; font-weight: bold; height: 40px; border-radius: 5px; }
+        .container { padding: 6px; max-width: 650px; margin: auto; }
+        .card { background: var(--white); border-radius: 8px; padding: 10px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        h3 { margin: 0; font-size: 0.8rem; color: var(--primary); border-left: 3px solid var(--accent); padding-left: 6px; text-transform: uppercase; }
+        .field { margin-bottom: 8px; }
+        label { display: block; font-size: 0.65rem; font-weight: bold; margin-bottom: 2px; color: #666; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem; background: #fff; }
+        
+        /* Estilos de Semáforo Miniaturizados */
+        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 5px 8px; border-bottom: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 2px; gap: 6px; }
+        .check-item.is-ok { background-color: #d4edda !important; border-left: 3px solid var(--success); }
+        .check-item.is-na { background-color: #e2e3e5 !important; border-left: 3px solid var(--na); }
+        .check-item.is-fail { background-color: #f8d7da !important; border-left: 3px solid var(--danger); }
+        
+        .item-desc { flex: 1; font-size: 0.78rem; color: #444; line-height: 1.1; overflow-wrap: anywhere; }
+        .item-pts { font-size: 0.6rem; color: #888; font-weight: normal; }
+        
+        .item-controls { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+        .btn-status { border: 1px solid #ccc; padding: 0; border-radius: 4px; cursor: pointer; font-weight: bold; background: white; font-size: 0.75rem; height: 28px; width: 28px; display: flex; align-items: center; justify-content: center; }
+        .btn-status.active-ok { background: var(--success); color: white; border-color: var(--success); }
+        .btn-status.active-na { background: var(--na); color: white; border-color: var(--na); }
+        
+        .input-desvio { width: 34px; text-align: center; border: 1px solid #ccc; font-weight: bold; height: 28px; border-radius: 4px; padding: 0; font-size: 0.85rem; }
+        .input-desvio.active-fail { border: 2px solid var(--danger) !important; background: white; }
+
         .epp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
-        .epp-box { background: #f9f9f9; padding: 5px; border-radius: 6px; border: 1px solid #eee; text-align: center; }
-        .epp-box label { font-size: 0.6rem; margin-bottom: 2px; color: #888; }
-        .epp-box select { padding: 4px; font-size: 0.8rem; height: auto; }
-        .legend { font-size: 0.75rem; background: #ebf2f7; padding: 10px; border-radius: 8px; border: 1px solid #d1dbe5; margin-bottom: 15px; }
-        .legend strong { color: var(--primary); }
-        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.2); }
-        .stat-val { font-size: 1.3rem; font-weight: bold; color: #f1c40f; }
+        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 8px; }
+        .epp-box { background: #f9f9f9; padding: 4px; border-radius: 5px; border: 1px solid #eee; text-align: center; }
+        .epp-box label { font-size: 0.55rem; margin-bottom: 1px; color: #888; }
+        .epp-box select { padding: 2px; font-size: 0.75rem; height: auto; border-radius: 3px; }
+        .legend { font-size: 0.65rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; }
+        
+        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 8px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.2); }
+        .stat-val { font-size: 1.1rem; font-weight: bold; color: #f1c40f; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .btn-green { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .btn-delete { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; }
+        .btn-green { background: #27ae60; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 8px; cursor: pointer; font-size: 0.9rem; }
+        .btn-delete { background: var(--danger); color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; cursor: pointer; }
         .no-pdf { display: block; }
-        #msg-loading { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 10px; }
+        #msg-loading { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 5px; font-size: 0.75rem; }
     </style>
 </head>
 <body>
@@ -60,11 +74,11 @@
         <!-- SECCIÓN 1: GENERAL -->
         <div id="t1" class="tab-content active">
             <div class="card">
-                <h3>Información de Campo</h3>
+                <h3>Información General</h3>
                 <div class="field"><label>Sector / Lugar específico</label><input type="text"></div>
                 <div class="field"><label>Supervisor / Servicio</label><input type="text"></div>
                 <div class="field"><label>Cantidad de Operarios (N° Divisor)</label><input type="number" id="n_ops" value="1" min="1" oninput="calculateAll()"></div>
-                <div style="display:flex; gap:10px;">
+                <div style="display:flex; gap:8px;">
                     <div class="field" style="flex:1"><label>Fecha</label><input type="date"></div>
                     <div class="field" style="flex:1"><label>Hora</label><input type="time"></div>
                 </div>
@@ -73,16 +87,16 @@
 
         <!-- SECCIÓN 2: INSPECCIÓN -->
         <div id="t2" class="tab-content">
+            <div class="legend">
+                <b>✓:</b> OK (Verde) | <b>X:</b> N/A (Gris) | <b>Núm:</b> Desvío (Rojo)
+            </div>
             <div id="items-container"></div>
         </div>
 
         <!-- SECCIÓN 3: EPP -->
         <div id="t3" class="tab-content">
             <div class="legend">
-                <strong>Referencia EPP:</strong><br>
-                <b>S:</b> Seguro (Sin correcciones) | 
-                <b>I:</b> Inseguro (Requiere corrección) | 
-                <b>NA:</b> No Aplica
+                <b>S:</b> Seguro | <b>I:</b> Inseguro | <b>NA:</b> No Aplica
             </div>
             <div id="workers-list"></div>
             <button class="btn-green no-pdf" onclick="addWorker()">+ Agregar Operario</button>
@@ -91,7 +105,7 @@
         <!-- SECCIÓN 4: FINAL -->
         <div id="t4" class="tab-content">
             <div class="card">
-                <h3>Observaciones</h3>
+                <h3>Cierre y Reporte</h3>
                 <div class="field"><label>Actitudes/Condiciones Inseguras</label><textarea rows="3"></textarea></div>
                 <div class="field"><label>Medidas Correctivas</label><textarea rows="3"></textarea></div>
                 <button class="btn-green no-pdf" id="pdf-trigger" onclick="makePDF()">DESCARGAR REPORTE PDF</button>
@@ -102,8 +116,8 @@
 </div>
 
 <div class="footer-score no-pdf">
-    <div style="text-align:center"><small>SUBTOTAL</small><br><span class="stat-val" id="res-st">0.00</span></div>
-    <div style="text-align:center"><small>ÍNDICE SEG.</small><br><span class="stat-val" id="res-idx" style="color:#2ecc71">0.0</span></div>
+    <div style="text-align:center"><small>SUBT</small><br><span class="stat-val" id="res-st">0.00</span></div>
+    <div style="text-align:center"><small>ÍNDICE</small><br><span class="stat-val" id="res-idx" style="color:#2ecc71">0.0</span></div>
 </div>
 
 <script>
@@ -172,14 +186,46 @@
         items.forEach(item => {
             if (item.c !== currentCat) {
                 currentCat = item.c;
-                container.innerHTML += `<div class="card"><h3>${currentCat}</h3><div id="cat-${item.id}"></div></div>`;
+                container.innerHTML += `<div class="card"><h3>${currentCat}</h3><div id="cg-${item.id}"></div></div>`;
             }
             container.querySelector('.card:last-child').innerHTML += `
-                <div class="check-item">
-                    <div class="item-desc">${item.id}. ${item.d}<br><span class="item-pts">Pts: ${item.p}</span></div>
-                    <input type="number" class="input-hallazgo" data-p="${item.p}" data-x="${item.x}" value="0" min="0" oninput="calculateAll()">
+                <div class="check-item" id="row-${item.id}">
+                    <div class="item-desc">${item.id}. ${item.d} <span class="item-pts">(${item.p})</span></div>
+                    <div class="item-controls">
+                        <button class="btn-status" onclick="setRowStatus(${item.id}, 'ok')">✓</button>
+                        <button class="btn-status" onclick="setRowStatus(${item.id}, 'na')">X</button>
+                        <input type="number" class="input-desvio" id="val-${item.id}" 
+                               data-p="${item.p}" data-x="${item.x}" value="0" min="0" 
+                               oninput="setRowStatus(${item.id}, 'fail')">
+                    </div>
                 </div>`;
         });
+    }
+
+    function setRowStatus(id, status) {
+        const row = document.getElementById(`row-${id}`);
+        const input = document.getElementById(`val-${id}`);
+        const btns = row.querySelectorAll('.btn-status');
+        
+        row.classList.remove('is-ok', 'is-na', 'is-fail');
+        btns.forEach(b => b.classList.remove('active-ok', 'active-na'));
+        input.classList.remove('active-fail');
+
+        if (status === 'ok') {
+            row.classList.add('is-ok');
+            btns[0].classList.add('active-ok');
+            input.value = 0;
+        } else if (status === 'na') {
+            row.classList.add('is-na');
+            btns[1].classList.add('active-na');
+            input.value = 0;
+        } else if (status === 'fail') {
+            if (parseFloat(input.value) > 0) {
+                row.classList.add('is-fail');
+                input.classList.add('active-fail');
+            }
+        }
+        calculateAll();
     }
 
     function addWorker() {
@@ -188,14 +234,14 @@
         card.className = 'card';
         const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
         let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
-        card.innerHTML = `<div class="epp-header"><h3>Operario</h3><button class="btn-delete no-pdf" onclick="this.parentElement.parentElement.remove()">Eliminar</button></div><input type="text" placeholder="Nombre y Apellido"><div class="epp-grid">${grid}</div>`;
+        card.innerHTML = `<div class="epp-header"><h3>Operario</h3><button class="btn-delete no-pdf" onclick="this.parentElement.parentElement.remove()">Eliminar</button></div><input type="text" placeholder="Nombre completo"><div class="epp-grid">${grid}</div>`;
         list.appendChild(card);
     }
 
     function calculateAll() {
         let sumX = 0, sumNoX = 0;
         const n = parseFloat(document.getElementById('n_ops').value) || 1;
-        document.querySelectorAll('.input-hallazgo').forEach(i => {
+        document.querySelectorAll('.input-desvio').forEach(i => {
             let val = parseFloat(i.value) || 0;
             let pts = parseFloat(i.dataset.p);
             if (i.dataset.x === "true") sumX += (val * pts); else sumNoX += (val * pts);
@@ -219,7 +265,7 @@
         document.getElementById('msg-loading').style.display = 'block';
         document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'block');
         document.querySelectorAll('.no-pdf').forEach(n => n.style.display = 'none');
-        const opt = { margin: 0.3, filename: 'Inspeccion_Dohm.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        const opt = { margin: 0.2, filename: 'Inspeccion_Dohm.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
         html2pdf().set(opt).from(area).save().then(() => {
             document.getElementById('pdf-trigger').style.display = 'block';
             document.getElementById('msg-loading').style.display = 'none';

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dohm S.A. - App de Inspección</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); line-height: 1.4; }
+        
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        header img { max-width: 120px; margin-bottom: 5px; }
+
+        /* Navegación por pestañas */
+        .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 15px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; outline: none; }
+        .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
+
+        .container { padding: 12px; max-width: 600px; margin: auto; }
+        .card { background: var(--white); border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h3 { margin: 0 0 12px 0; font-size: 0.95rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
+
+        .field { margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 5px; color: #666; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; background: #fff; appearance: none; }
+
+        /* Lista de Items de Inspección */
+        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .item-desc { flex: 1; font-size: 0.85rem; padding-right: 10px; }
+        .item-pts { font-size: 0.7rem; color: #999; display: block; margin-top: 2px; }
+        .input-hallazgo { width: 70px; text-align: center; border: 2px solid var(--accent) !important; background: #fffdf9 !important; font-weight: bold; }
+
+        /* Grid de EPP por Persona */
+        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+        .epp-box { background: #f8f9fa; padding: 6px; border-radius: 8px; border: 1px solid #eee; text-align: center; }
+        .epp-box label { font-size: 0.65rem; margin-bottom: 3px; color: #777; overflow: hidden; text-overflow: ellipsis; }
+        .epp-box select { padding: 5px; font-size: 0.85rem; height: auto; text-align: center; }
+
+        /* Footer Flotante */
+        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.3); z-index: 1000; }
+        .stat { text-align: center; }
+        .stat-lbl { font-size: 0.65rem; text-transform: uppercase; opacity: 0.8; display: block; }
+        .stat-val { font-size: 1.3rem; font-weight: bold; color: #f1c40f; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .btn-green { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; font-size: 1rem; }
+        
+        @media print { .tabs, .footer-score, .btn-green { display: none; } .tab-content { display: block !important; } .card { box-shadow: none; border: 1px solid #eee; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <strong>DOHM S.A.</strong><br>
+    <small>Gestión de Seguridad e Higiene</small>
+</header>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="showTab(event, 't1')">Cabecera</button>
+    <button class="tab-btn" onclick="showTab(event, 't2')">Inspección</button>
+    <button class="tab-btn" onclick="showTab(event, 't3')">Personal</button>
+    <button class="tab-btn" onclick="showTab(event, 't4')">Cierre</button>
+</div>
+
+<div class="container">
+    
+    <!-- T1: DATOS GENERALES -->
+    <div id="t1" class="tab-content active">
+        <div class="card">
+            <h3>Información de Campo</h3>
+            <div class="field"><label>Sector / Lugar Específico</label><input type="text" placeholder="Ej: Taller Central"></div>
+            <div class="field"><label>Supervisor Responsable</label><input type="text"></div>
+            <div class="field"><label>Cantidad de Operarios (N° Divisor)</label><input type="number" id="n_ops" value="1" min="1" oninput="calc()"></div>
+            <div style="display:flex; gap:10px;">
+                <div class="field" style="flex:1"><label>Fecha</label><input type="date"></div>
+                <div class="field" style="flex:1"><label>Hora</label><input type="time"></div>
+            </div>
+            <div class="field">
+                <label>Nivel de Riesgo detectado</label>
+                <select><option>Bajo</option><option>Medio</option><option>Alto</option></select>
+            </div>
+        </div>
+    </div>
+
+    <!-- T2: EL CHECKLIST COMPLETO (56 Items) -->
+    <div id="t2" class="tab-content">
+        <div id="check-list"></div>
+    </div>
+
+    <!-- T3: EPP POR PERSONA (9 campos x operario) -->
+    <div id="t3" class="tab-content">
+        <div id="workers"></div>
+        <button class="btn-green" onclick="addWorker()">+ Agregar Operario</button>
+    </div>
+
+    <!-- T4: CIERRE -->
+    <div id="t4" class="tab-content">
+        <div class="card">
+            <h3>Finalización</h3>
+            <div class="field"><label>Actitudes/Condiciones Inseguras</label><textarea rows="4"></textarea></div>
+            <div class="field"><label>Medidas Correctivas Inmediatas</label><textarea rows="4"></textarea></div>
+            <button class="btn-green" style="background:var(--primary)" onclick="window.print()">GENERAR REPORTE PDF</button>
+        </div>
+    </div>
+</div>
+
+<div class="footer-score">
+    <div class="stat"><span class="stat-lbl">Subtotal</span><span class="stat-val" id="st_display">0.00</span></div>
+    <div class="stat"><span class="stat-lbl">Índice Seg.</span><span class="stat-val" id="idx_display" style="color:#2ecc71">0.0</span></div>
+</div>
+
+<script>
+    const data = [
+        { id: 1, c: "Proteccion Personal", d: "No uso de anteojos", p: 20, x: false },
+        { id: 2, c: "Proteccion Personal", d: "No uso de antiparras", p: 20, x: false },
+        { id: 3, c: "Proteccion Personal", d: "No uso de proteccion facial", p: 20, x: false },
+        { id: 4, c: "Proteccion Personal", d: "No uso de careta de soldar (x)", p: 20, x: true },
+        { id: 5, c: "Proteccion Personal", d: "No uso de protectores auditivos", p: 10, x: false },
+        { id: 6, c: "Proteccion Personal", d: "No uso de casco", p: 10, x: false },
+        { id: 7, c: "Proteccion Personal", d: "No uso de guantes", p: 10, x: false },
+        { id: 8, c: "Proteccion Personal", d: "No uso de calzado de seguridad", p: 10, x: false },
+        { id: 9, c: "Proteccion Personal", d: "No uso de protector respiratorio", p: 5, x: false },
+        { id: 10, c: "Proteccion Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
+        { id: 11, c: "Proteccion Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
+        { id: 12, c: "Proteccion Personal", d: "No uso de arnes de seguridad (x)", p: 50, x: true },
+        { id: 13, c: "Proteccion Personal", d: "No uso de arnes amarrado a punto fijo (x)", p: 50, x: true },
+        { id: 14, c: "Actitudes Inseguras", d: "Fumar en areas no autorizadas (x)", p: 50, x: true },
+        { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo / OT (x)", p: 50, x: true },
+        { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (x)", p: 50, x: true },
+        { id: 17, c: "Actitudes Inseguras", d: "Falta de APR", p: 50, x: false },
+        { id: 18, c: "Actitudes Inseguras", d: "Falta de tarjeta de corte de fluidos (x)", p: 50, x: true },
+        { id: 19, c: "Actitudes Inseguras", d: "Permiso de trabajo / OT incompleta (x)", p: 50, x: true },
+        { id: 20, c: "Actitudes Inseguras", d: "Procedimiento incompleto (x)", p: 50, x: true },
+        { id: 21, c: "Actitudes Inseguras", d: "APR o MST Incompletos (x)", p: 50, x: true },
+        { id: 22, c: "Actitudes Inseguras", d: "Tarjeta de corte incompleta (x)", p: 50, x: true },
+        { id: 23, c: "Actitudes Inseguras", d: "Area de trabajo sin vallar/deficiente (x)", p: 15, x: true },
+        { id: 24, c: "Actitudes Inseguras", d: "Incumplimiento indicaciones PT/OT (x)", p: 50, x: true },
+        { id: 25, c: "Actitudes Inseguras", d: "Exposicion a carga suspendida (x)", p: 50, x: true },
+        { id: 26, c: "Actitudes Inseguras", d: "Tareas superpuestas sin coordinacion", p: 30, x: false },
+        { id: 27, c: "Actitudes Inseguras", d: "Desconocimiento riesgos de la tarea", p: 15, x: false },
+        { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto herramientas / equipos", p: 15, x: false },
+        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identif. / sin pedestales", p: 20, x: false },
+        { id: 30, c: "Actitudes Inseguras", d: "Transgresion de vallados (x)", p: 30, x: true },
+        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos", p: 30, x: false },
+        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas", p: 30, x: false },
+        { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir", p: 30, x: false },
+        { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrectamente (x)", p: 30, x: true },
+        { id: 35, c: "Condiciones Inseguras", d: "Instalacion electrica deficiente (x)", p: 30, x: true },
+        { id: 36, c: "Condiciones Inseguras", d: "Tableros sin proteccion diferencial", p: 20, x: false },
+        { id: 37, c: "Condiciones Inseguras", d: "Herramientas deterioradas", p: 10, x: false },
+        { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 20, x: false },
+        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin valvula seg. (x)", p: 20, x: true },
+        { id: 40, c: "Condiciones Inseguras", d: "Maquinas herramientas sin proteccion (x)", p: 15, x: true },
+        { id: 41, c: "Condiciones Inseguras", d: "Excavacion sin señalizar / vallar (x)", p: 20, x: true },
+        { id: 42, c: "Condiciones Inseguras", d: "Equipos de izaje deficientes (x)", p: 50, x: true },
+        { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos (x)", p: 50, x: true },
+        { id: 44, c: "Condiciones Inseguras", d: "Cilindros de gases no asegurados", p: 15, x: false },
+        { id: 45, c: "Condiciones Inseguras", d: "Depositos combustibles inadecuados (x)", p: 20, x: true },
+        { id: 46, c: "Condiciones Inseguras", d: "Falta de orden y limpieza", p: 10, x: false },
+        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en area (x)", p: 10, x: true },
+        { id: 48, c: "Medio Ambiente", d: "Inadecuada disposicion residuos (x)", p: 20, x: true },
+        { id: 49, c: "Medio Ambiente", d: "Falta medios contencion derrames", p: 15, x: false },
+        { id: 50, c: "Medio Ambiente", d: "Desconocimiento aspectos ambientales", p: 15, x: false },
+        { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true },
+        { id: 52, c: "Transporte", d: "Sin alarma de retroceso (x)", p: 50, x: true },
+        { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (x)", p: 30, x: true },
+        { id: 54, c: "Accidentologia", d: "Accidente / Auxilio Riesgo Bajo", p: 2.5, x: false },
+        { id: 55, c: "Accidentologia", d: "Accidente / Auxilio Riesgo Medio", p: 5, x: false },
+        { id: 56, c: "Accidentologia", d: "Accidente / Auxilio Riesgo Alto", p: 10, x: false }
+    ];
+
+    function renderList() {
+        const target = document.getElementById('check-list');
+        let currentCat = "";
+        data.forEach(item => {
+            if(item.c !== currentCat){
+                currentCat = item.c;
+                target.innerHTML += `<div class="card"><h3>${currentCat}</h3><div id="c-${item.id}"></div></div>`;
+            }
+            target.querySelector('.card:last-child').innerHTML += `
+                <div class="check-item">
+                    <div class="item-desc">${item.id}. ${item.d}<br><span class="item-pts">Pts: ${item.p}</span></div>
+                    <input type="number" class="input-hallazgo" data-p="${item.p}" data-x="${item.x}" value="0" min="0" oninput="calc()">
+                </div>`;
+        });
+    }
+
+    function addWorker() {
+        const list = document.getElementById('workers');
+        const card = document.createElement('div');
+        card.className = 'card';
+        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respiratoria'];
+        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
+        card.innerHTML = `<h3>Operario</h3><input type="text" placeholder="Nombre completo" style="margin-bottom:10px"><div class="epp-grid">${grid}</div>`;
+        list.appendChild(card);
+    }
+
+    function calc() {
+        let xPts = 0, noXPts = 0;
+        const n = parseFloat(document.getElementById('n_ops').value) || 1;
+        document.querySelectorAll('.input-hallazgo').forEach(i => {
+            let v = parseFloat(i.value) || 0;
+            let p = parseFloat(i.dataset.p);
+            if(i.dataset.x === "true") xPts += (v * p); else noXPts += (v * p);
+        });
+        let st = (noXPts / n) + xPts;
+        document.getElementById('st_display').innerText = st.toFixed(2);
+        document.getElementById('idx_display').innerText = (st * 10).toFixed(1);
+    }
+
+    function showTab(e, id) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        e.currentTarget.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    window.onload = () => { renderList(); addWorker(); };
+</script>
+</body>
+</html>

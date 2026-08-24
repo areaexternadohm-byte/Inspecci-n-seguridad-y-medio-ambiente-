@@ -3,197 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dohm S.A. - App de Inspección</title>
-    <!-- Cargamos la librería para generar PDF de forma profesional -->
+    <title>Dohm S.A. - Inspección Oficial</title>
+    <!-- Librería para generar el PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); margin: 0; padding-bottom: 110px; color: var(--text); }
         
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        header small { opacity: 0.8; font-size: 0.75rem; }
 
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 15px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
+        .tab-btn { flex: 1; padding: 15px 10px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; outline: none; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
-        .container { padding: 12px; max-width: 600px; margin: auto; }
-        .card { background: var(--white); border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h3 { margin: 0 0 12px 0; font-size: 0.95rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
+        .container { padding: 12px; max-width: 650px; margin: auto; }
+        .card { background: var(--white); border-radius: 10px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        h3 { margin: 0 0 12px 0; font-size: 0.9rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
 
-        .field { margin-bottom: 15px; }
-        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 5px; color: #666; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; background: #fff; }
+        .field { margin-bottom: 12px; }
+        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #666; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background: #fff; }
 
-        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .item-desc { flex: 1; font-size: 0.85rem; padding-right: 10px; }
-        .input-hallazgo { width: 70px; text-align: center; border: 2px solid var(--accent) !important; background: #fffdf9 !important; font-weight: bold; }
+        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
+        .item-desc { flex: 1; font-size: 0.85rem; padding-right: 10px; color: #444; }
+        .item-pts { font-size: 0.7rem; color: #999; font-weight: bold; }
+        .input-hallazgo { width: 65px; text-align: center; border: 2px solid var(--accent) !important; background: #fffdf2 !important; font-weight: bold; height: 40px; border-radius: 5px; }
 
-        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-        .epp-box { background: #f8f9fa; padding: 6px; border-radius: 8px; border: 1px solid #eee; text-align: center; }
-        .epp-box label { font-size: 0.6rem; color: #777; margin-bottom: 2px; display: block;}
+        /* EPP Personal */
+        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+        .epp-box { background: #f9f9f9; padding: 5px; border-radius: 6px; border: 1px solid #eee; text-align: center; }
+        .epp-box label { font-size: 0.6rem; margin-bottom: 2px; color: #888; }
+        .epp-box select { padding: 4px; font-size: 0.8rem; height: auto; }
 
-        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        /* Footer */
+        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.2); }
         .stat-val { font-size: 1.3rem; font-weight: bold; color: #f1c40f; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .btn-green { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; }
-
-        /* Estilos especiales para el PDF */
-        .pdf-only { display: none; }
+        .btn-green { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        
+        .no-pdf { display: block; }
+        #msg-loading { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 10px; }
     </style>
 </head>
 <body>
 
-<!-- Todo lo que esté dentro de este div se irá al PDF -->
-<div id="app-content">
+<div id="capture-area">
     <header>
         <strong>DOHM S.A.</strong><br>
-        <small>Reporte de Inspección de Seguridad</small>
+        <small>Observación de Seguridad, Higiene y Medio Ambiente</small>
     </header>
 
-    <div class="tabs no-pdf">
-        <button class="tab-btn active" onclick="showTab(event, 't1')">Info</button>
-        <button class="tab-btn" onclick="showTab(event, 't2')">Items</button>
+    <nav class="tabs no-pdf">
+        <button class="tab-btn active" onclick="showTab(event, 't1')">General</button>
+        <button class="tab-btn" onclick="showTab(event, 't2')">Inspección</button>
         <button class="tab-btn" onclick="showTab(event, 't3')">EPP</button>
-        <button class="tab-btn" onclick="showTab(event, 't4')">Cierre</button>
-    </div>
+        <button class="tab-btn" onclick="showTab(event, 't4')">Final</button>
+    </nav>
 
     <div class="container">
-        <!-- SECCIONES -->
-        <div id="t1" class="tab-content active section-to-print">
+        <!-- SECCIÓN 1: DATOS CABECERA -->
+        <div id="t1" class="tab-content active">
             <div class="card">
                 <h3>Información de Campo</h3>
-                <div class="field"><label>Sector / Lugar</label><input type="text" id="pdf_sector"></div>
-                <div class="field"><label>Supervisor</label><input type="text" id="pdf_super"></div>
-                <div class="field"><label>Cant. Operarios</label><input type="number" id="n_ops" value="1" oninput="calc()"></div>
-                <div style="display:flex; gap:10px;">
-                    <div class="field" style="flex:1"><label>Fecha</label><input type="date"></div>
-                    <div class="field" style="flex:1"><label>Hora</label><input type="time"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="t2" class="tab-content section-to-print">
-            <div id="check-list"></div>
-        </div>
-
-        <div id="t3" class="tab-content section-to-print">
-            <div id="workers"></div>
-            <button class="btn-green no-pdf" onclick="addWorker()">+ Agregar Operario</button>
-        </div>
-
-        <div id="t4" class="tab-content section-to-print">
-            <div class="card">
-                <h3>Finalización</h3>
-                <div class="field"><label>Observaciones</label><textarea rows="4"></textarea></div>
-                <button class="btn-green no-pdf" id="btn-pdf" onclick="generarPDF()">DESCARGAR REPORTE PDF</button>
-                <p id="msg-cargando" style="display:none; text-align:center; color:var(--accent);">Generando archivo, espere...</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="footer-score no-pdf">
-    <div style="text-align:center"><small>SUBTOTAL</small><br><span class="stat-val" id="st_display">0.00</span></div>
-    <div style="text-align:center"><small>ÍNDICE SEG.</small><br><span class="stat-val" id="idx_display" style="color:#2ecc71">0.0</span></div>
-</div>
-
-<script>
-    // LISTA DE ITEMS (Igual a la anterior para no perder datos)
-    const data = [
-        { id: 1, c: "Protección Personal", d: "No uso de anteojos", p: 20, x: false },
-        { id: 6, c: "Protección Personal", d: "No uso de casco", p: 10, x: false },
-        { id: 12, c: "Protección Personal", d: "No uso de arnés (x)", p: 50, x: true },
-        { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas prohibidas (x)", p: 50, x: true },
-        { id: 17, c: "Actitudes Inseguras", d: "Falta de APR", p: 50, x: false },
-        { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (x)", p: 30, x: true },
-        { id: 46, c: "Condiciones Inseguras", d: "Falta de orden y limpieza", p: 10, x: false },
-        { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true }
-        // ... (Puedes seguir agregando los 56 aquí)
-    ];
-
-    function renderList() {
-        const target = document.getElementById('check-list');
-        let currentCat = "";
-        data.forEach(item => {
-            if(item.c !== currentCat){
-                currentCat = item.c;
-                target.innerHTML += `<div class="card"><h3>${currentCat}</h3><div id="c-${item.id}"></div></div>`;
-            }
-            target.querySelector('.card:last-child').innerHTML += `
-                <div class="check-item">
-                    <div class="item-desc">${item.id}. ${item.d}</div>
-                    <input type="number" class="input-hallazgo" data-p="${item.p}" data-x="${item.x}" value="0" min="0" oninput="calc()">
-                </div>`;
-        });
-    }
-
-    function addWorker() {
-        const list = document.getElementById('workers');
-        const card = document.createElement('div');
-        card.className = 'card';
-        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respiratoria'];
-        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
-        card.innerHTML = `<h3>Operario</h3><input type="text" placeholder="Nombre completo" style="margin-bottom:10px"><div class="epp-grid">${grid}</div>`;
-        list.appendChild(card);
-    }
-
-    function calc() {
-        let xPts = 0, noXPts = 0;
-        const n = parseFloat(document.getElementById('n_ops').value) || 1;
-        document.querySelectorAll('.input-hallazgo').forEach(i => {
-            let v = parseFloat(i.value) || 0;
-            let p = parseFloat(i.dataset.p);
-            if(i.dataset.x === "true") xPts += (v * p); else noXPts += (v * p);
-        });
-        let st = (noXPts / n) + xPts;
-        document.getElementById('st_display').innerText = st.toFixed(2);
-        document.getElementById('idx_display').innerText = (st * 10).toFixed(1);
-    }
-
-    function showTab(e, id) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(e) e.currentTarget.classList.add('active');
-    }
-
-    // FUNCIÓN MAGICA PARA EL PDF
-    function generarPDF() {
-        const elemento = document.getElementById('app-content');
-        const boton = document.getElementById('btn-pdf');
-        const msg = document.getElementById('msg-cargando');
-
-        // 1. Mostrar todo para el PDF
-        boton.style.display = 'none';
-        msg.style.display = 'block';
-        
-        // Hacer visibles todas las secciones temporalmente
-        const sections = document.querySelectorAll('.tab-content');
-        sections.forEach(s => s.style.display = 'block');
-        document.querySelectorAll('.no-pdf').forEach(el => el.style.display = 'none');
-
-        const opciones = {
-            margin:       0.5,
-            filename:     'Inspeccion_Dohm.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opciones).from(elemento).save().then(() => {
-            // 2. Restaurar la vista normal
-            boton.style.display = 'block';
-            msg.style.display = 'none';
-            sections.forEach(s => s.style.display = ''); 
-            document.querySelectorAll('.no-pdf').forEach(el => el.style.display = '');
-            showTab(null, 't4'); // Volver a la pestaña de cierre
-        });
-    }
-
-    window.onload = () => { renderList(); addWorker(); };
-</script>
-</body>
-</html>
+                <div class="field"><label>Sector / Lugar específico</label><input type="text"></div>
+                <div class="field"><label>Supervisor / Servicio</label><input type="text"></div>
+                <div class="field"><label>Cantidad de Operarios (N° Divisor)</label><input type="number

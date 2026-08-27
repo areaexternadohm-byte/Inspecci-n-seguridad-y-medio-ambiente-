@@ -3,45 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dohm S.A. - Gestión SHMA</title>
+    <title>Dohm S.A. - Gestión Integral SHMA</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; --warning: #f39c12; }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
-        
+        body { background: var(--bg); margin: 0; padding-bottom: 110px; color: var(--text); }
         header { background: var(--primary); color: white; padding: 15px; text-align: center; }
         header strong { font-size: 1.4rem; }
-        header small { opacity: 0.9; font-size: 1.2rem; font-weight: bold; display: block; margin-top: 5px; color: #fff; }
+        header small { opacity: 0.9; font-size: 1.15rem; font-weight: bold; display: block; margin-top: 5px; color: #fff; }
         
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; outline: none; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
         .container { padding: 6px; max-width: 650px; margin: auto; }
         .card { background: var(--white); border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #eee; position: relative; }
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
+        h3 { margin: 0 0 10px 0; font-size: 1rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
         
         .field { margin-bottom: 12px; }
         label { display: block; font-size: 1rem; font-weight: bold; margin-bottom: 4px; color: #444; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1.1rem; background: #fff; color: #000; }
         input:disabled, select:disabled, textarea:disabled { background: #e9ecef !important; color: #666 !important; }
 
-        /* INSPECCIÓN - 2 RENGLONES */
+        /* INSPECCIÓN */
         .check-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; border-bottom: 1px solid #f2f2f2; gap: 8px; min-height: 60px; }
         .item-desc { flex: 1; font-size: 0.9rem; line-height: 1.2; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
         .item-controls { display: flex; gap: 4px; flex-shrink: 0; }
-        .btn-status { border: 1px solid #ccc; height: 30px; width: 30px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
+        .btn-status { border: 1px solid #ccc; height: 32px; width: 32px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
         .active-ok { background: var(--success) !important; color: white; border-color: var(--success); }
         .active-na { background: var(--na) !important; color: white; border-color: var(--na); }
-        .input-desvio { width: 38px; text-align: center; border: 1px solid #ccc; height: 30px; border-radius: 3px; font-size: 1rem; padding: 0; }
+        .input-desvio { width: 40px; text-align: center; border: 1px solid #ccc; height: 32px; border-radius: 3px; font-size: 1rem; padding: 0; }
+        .is-fail-row { background-color: #f8d7da !important; }
 
         /* EPP */
         .btn-delete-epp { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; cursor: pointer; position: absolute; top: 8px; right: 8px; }
         .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 12px; }
         .epp-box { background: #f9f9f9; padding: 4px; border-radius: 4px; border: 1px solid #eee; text-align: center; }
-        .epp-box label { font-size: 0.6rem; color: #777; margin-bottom: 2px; }
-        .epp-box select { padding: 3px; font-size: 0.9rem; height: auto; }
+        .epp-box label { font-size: 0.6rem; color: #777; margin-bottom: 2px; text-transform: uppercase; }
 
         /* FOTOS Y BOTONES */
         .photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; max-height: 220px; object-fit: contain; background: #eee; display: none; }
@@ -49,13 +48,14 @@
         .btn-enabled { display: block !important; background: var(--success) !important; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         /* FOOTER CENTRADO */
-        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: center; gap: 40px; align-items: center; z-index: 1000; border-top: 2px solid var(--accent); }
-        .stat-val { color: #f1c40f; font-weight: bold; font-size: 1.3rem; margin-left: 5px; }
+        .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: center; align-items: center; z-index: 1000; border-top: 2px solid var(--accent); }
+        .idx-container { text-align: center; font-weight: bold; font-size: 1.1rem; }
+        .stat-val { font-size: 1.6rem; margin-left: 10px; transition: color 0.3s; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .no-pdf { display: block; }
-        .legend { font-size: 0.7rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; }
+        .legend { font-size: 0.7rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -83,7 +83,7 @@
                 <div class="field">
                     <label>Supervisor</label>
                     <select id="c_super" onchange="handleAdminSelect(this); saveLocal()">
-                        <option value="">Seleccione...</option>
+                        <option value="">Seleccione Supervisor...</option>
                         <option value="Admin">⭐ Administrador</option>
                         <option>Cejas Leonardo</option><option>Gerez Jonatan</option><option>Gil Miguel</option>
                         <option>Godoy Julio</option><option>Liguori David</option><option>Luchetta Lucas</option>
@@ -97,14 +97,17 @@
                     <div class="field" style="flex:1"><label>Fecha</label><input type="date" id="f_insp" oninput="saveLocal()"></div>
                     <div class="field" style="flex:1"><label>Hora</label><input type="time" id="h_insp" oninput="saveLocal()"></div>
                 </div>
-                <button class="no-pdf" onclick="fetchHistory()" style="background:var(--primary); color:white; border:none; padding:12px; border-radius:5px; width:100%; font-size:0.9rem; font-weight:bold; margin-top:5px;">HISTORIAL</button>
+                <button class="no-pdf" onclick="fetchHistory()" style="background:var(--primary); color:white; border:none; padding:12px; border-radius:5px; width:100%; font-size:0.95rem; font-weight:bold; margin-top:5px;">HISTORIAL EN DRIVE</button>
                 <div id="hist-container" style="max-height:120px; overflow-y:auto; margin-top:5px; border:1px solid #ddd; display:none;"></div>
             </div>
         </div>
 
         <!-- INSPECCIÓN -->
         <div id="t2" class="tab-content">
-            <div class="legend"><b>✓:</b> OK | <b>X:</b> N/A | <b>Núm:</b> Desvío</div>
+            <div class="legend">
+                <b>✓:</b> OK | <b>X:</b> N/A | <b>Núm:</b> Desvío <br>
+                <b>(*):</b> Transgresión Directa (+100% Riesgo / 24h)
+            </div>
             <div id="items-list"></div>
         </div>
 
@@ -117,7 +120,6 @@
         <!-- OPORTUNIDADES -->
         <div id="t4" class="tab-content">
             <div class="card">
-                <h3>Análisis de Desvíos</h3>
                 <div class="field"><label>Actitudes/Condiciones Inseguras Detectadas</label><textarea rows="3" id="c_inseguras" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Medidas Correctivas Propuestas</label><textarea rows="3" id="c_correctivas" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Observaciones Generales</label><textarea rows="3" id="c_obs" oninput="saveLocal()"></textarea></div>
@@ -139,21 +141,21 @@
                 <h3>Desvío hallado</h3>
                 <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-hallado', 'btn-guardar-drive')">
                 <img id="img-hallado" class="photo-preview">
-                <button id="btn-guardar-drive" class="btn-action" onclick="saveToDrive('GUARDADA')">GUARDAR INSPECCIÓN</button>
+                <button id="btn-guardar-drive" class="btn-action" onclick="saveToDrive('GUARDADA')">GUARDAR INSPECCIÓN EN DRIVE</button>
             </div>
             <div class="card">
                 <h3>Desvío corregido</h3>
                 <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-corregido', 'btn-cierre-pdf')">
                 <img id="img-corregido" class="photo-preview">
-                <button id="btn-cierre-pdf" class="btn-action" onclick="saveToDrive('CERRADA', true)">CIERRE DE OPORTUNIDAD (PDF)</button>
+                <button id="btn-cierre-pdf" class="btn-action" onclick="saveToDrive('CERRADA', true)">CIERRE DE OPORTUNIDAD (DRIVE + PDF)</button>
             </div>
+            <button class="no-pdf" onclick="resetApp()" style="margin-top:20px; border:none; background:none; color:red; font-size:0.8rem; width:100%">REINICIAR FORMULARIO</button>
         </div>
     </div>
 </div>
 
 <div class="footer-score no-pdf">
-    <div>SUBT: <span class="stat-val" id="res-st">0.00</span></div>
-    <div>ÍNDICE: <span class="stat-val" id="res-idx">0.0</span></div>
+    <div class="idx-container">ÍNDICE DE RIESGO: <span class="stat-val" id="res-idx">0%</span></div>
 </div>
 
 <script>
@@ -162,124 +164,107 @@
     let isLocked = false;
     let isAdmin = false;
 
+    // 56 ÍTEMS OFICIALES
     const itemsData = [
-        { id: 1, c: "Proteccion Personal", d: "No uso de anteojos", p: 20, x: false },
-        { id: 2, c: "Proteccion Personal", d: "No uso de antiparras", p: 20, x: false },
-        { id: 3, c: "Proteccion Personal", d: "No uso de proteccion facial", p: 20, x: false },
-        { id: 4, c: "Proteccion Personal", d: "No uso de careta de soldar (x)", p: 20, x: true },
-        { id: 5, c: "Proteccion Personal", d: "No uso de protectores auditivos", p: 10, x: false },
-        { id: 6, c: "Proteccion Personal", d: "No uso de casco", p: 10, x: false },
-        { id: 7, c: "Proteccion Personal", d: "No uso de guantes", p: 10, x: false },
-        { id: 8, c: "Proteccion Personal", d: "No uso de calzado de seguridad", p: 10, x: false },
-        { id: 9, c: "Proteccion Personal", d: "No uso de protector respiratorio", p: 5, x: false },
-        { id: 10, c: "Proteccion Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
-        { id: 11, c: "Proteccion Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
-        { id: 12, c: "Proteccion Personal", d: "No uso de arnés de seguridad (x)", p: 50, x: true },
-        { id: 13, c: "Proteccion Personal", d: "No uso de arnés amarrado a punto fijo (x)", p: 50, x: true },
-        { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas no autorizadas (x)", p: 50, x: true },
-        { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo / OT (x)", p: 50, x: true },
-        { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (x)", p: 50, x: true },
-        { id: 17, c: "Actitudes Inseguras", d: "Falta de APR", p: 50, x: false },
-        { id: 18, c: "Actitudes Inseguras", d: "Falta de tarjeta de corte de fluidos (x)", p: 50, x: true },
-        { id: 19, c: "Actitudes Inseguras", d: "Permiso de trabajo / OT incompleta (x)", p: 50, x: true },
-        { id: 20, c: "Actitudes Inseguras", d: "Procedimiento incompleto (x)", p: 50, x: true },
-        { id: 21, c: "Actitudes Inseguras", d: "APR o MST Incompletos (x)", p: 50, x: true },
-        { id: 22, c: "Actitudes Inseguras", d: "Tarjeta de corte incompleta (x)", p: 50, x: true },
-        { id: 23, c: "Actitudes Inseguras", d: "Area de trabajo sin vallar o deficiente (x)", p: 15, x: true },
-        { id: 24, c: "Actitudes Inseguras", d: "Incumplimiento indicaciones PT/OT (x)", p: 50, x: true },
-        { id: 25, c: "Actitudes Inseguras", d: "Exposicion a carga suspendida (x)", p: 50, x: true },
-        { id: 26, c: "Actitudes Inseguras", d: "Realizar tareas superpuestas sin coordinacion", p: 30, x: false },
-        { id: 27, c: "Actitudes Inseguras", d: "Desconocimiento de los riesgos de la tarea", p: 15, x: false },
-        { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto de herramientas / equipos", p: 15, x: false },
-        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificacion / pedestales", p: 20, x: false },
-        { id: 30, c: "Actitudes Inseguras", d: "Transgresion de vallados (x)", p: 30, x: true },
-        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos (atrapamientos, golpes)", p: 30, x: false },
-        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas (golpes)", p: 30, x: false },
-        { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir o desconocida", p: 30, x: false },
-        { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrectamente (x)", p: 30, x: true },
-        { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (x)", p: 30, x: true },
-        { id: 36, c: "Condiciones Inseguras", d: "Tableros portátiles sin protección diferencial", p: 20, x: false },
+        { id: 1, c: "Protección Personal", d: "No uso de anteojos", p: 10, x: false },
+        { id: 2, c: "Protección Personal", d: "No uso de antiparras", p: 10, x: false },
+        { id: 3, c: "Protección Personal", d: "No uso de proteccion facial", p: 10, x: false },
+        { id: 4, c: "Protección Personal", d: "No uso de careta de soldar (*) transgresión", p: 100, x: true },
+        { id: 5, c: "Protección Personal", d: "No uso de protectores auditivos", p: 10, x: false },
+        { id: 6, c: "Protección Personal", d: "No uso de casco", p: 10, x: false },
+        { id: 7, c: "Protección Personal", d: "No uso de guantes", p: 10, x: false },
+        { id: 8, c: "Protección Personal", d: "No uso de calzado de seguridad", p: 10, x: false },
+        { id: 9, c: "Protección Personal", d: "No uso de protector respiratorio", p: 10, x: false },
+        { id: 10, c: "Protección Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
+        { id: 11, c: "Protección Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
+        { id: 12, c: "Protección Personal", d: "No uso de arnés de seguridad (*) transgresión", p: 100, x: true },
+        { id: 13, c: "Protección Personal", d: "No uso de arnés amarrado (*) transgresión", p: 100, x: true },
+        { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas no autorizadas (*) transgresión", p: 100, x: true },
+        { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo (*) transgresión", p: 100, x: true },
+        { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (*) transgresión", p: 100, x: true },
+        { id: 17, c: "Actitudes Inseguras", d: "Falta de APR", p: 20, x: false },
+        { id: 18, c: "Actitudes Inseguras", d: "Falta de tarjeta corte fluidos (*) transgresión", p: 100, x: true },
+        { id: 19, c: "Actitudes Inseguras", d: "Permiso de trabajo incompleto (*) transgresión", p: 100, x: true },
+        { id: 20, c: "Actitudes Inseguras", d: "Procedimiento incompleto (*) transgresión", p: 100, x: true },
+        { id: 21, c: "Actitudes Inseguras", d: "APR o MST Incompletos (*) transgresión", p: 100, x: true },
+        { id: 22, c: "Actitudes Inseguras", d: "Tarjeta corte incompleta (*) transgresión", p: 100, x: true },
+        { id: 23, c: "Actitudes Inseguras", d: "Área sin vallar o deficiente (*) transgresión", p: 100, x: true },
+        { id: 24, c: "Actitudes Inseguras", d: "Incumplimiento indicaciones PT/OT (*) transgresión", p: 100, x: true },
+        { id: 25, c: "Actitudes Inseguras", d: "Exposicion a carga suspendida (*) transgresión", p: 100, x: true },
+        { id: 26, c: "Actitudes Inseguras", d: "Realizar tareas superpuestas sin coord.", p: 15, x: false },
+        { id: 27, c: "Actitudes Inseguras", d: "Desconocimiento de los riesgos", p: 15, x: false },
+        { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto de herramientas", p: 10, x: false },
+        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificación / pedestales", p: 10, x: false },
+        { id: 30, c: "Actitudes Inseguras", d: "Transgresion de vallados (*) transgresión", p: 100, x: true },
+        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos (golpes)", p: 15, x: false },
+        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas (golpes)", p: 15, x: false },
+        { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir", p: 10, x: false },
+        { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrecto (*) transgresión", p: 100, x: true },
+        { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (*) transgresión", p: 100, x: true },
+        { id: 36, c: "Condiciones Inseguras", d: "Tableros portátiles sin protección", p: 10, x: false },
         { id: 37, c: "Condiciones Inseguras", d: "Herramientas deterioradas", p: 10, x: false },
-        { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 20, x: false },
-        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin válvula de seguridad (x)", p: 20, x: true },
-        { id: 40, c: "Condiciones Inseguras", d: "Máquinas herramientas sin protección (x)", p: 15, x: true },
-        { id: 41, c: "Condiciones Inseguras", d: "Excavación sin señalizar / vallar (x)", p: 20, x: true },
-        { id: 42, c: "Condiciones Inseguras", d: "Equipos / sistemas de izaje deficientes (x)", p: 50, x: true },
-        { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos (x)", p: 50, x: true },
-        { id: 44, c: "Condiciones Inseguras", d: "Cilindros de gases no asegurados", p: 15, x: false },
-        { id: 45, c: "Condiciones Inseguras", d: "Depósitos de combustibles inadecuados (x)", p: 20, x: true },
+        { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 10, x: false },
+        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin válvula (*) transgresión", p: 100, x: true },
+        { id: 40, c: "Condiciones Inseguras", d: "Máquinas sin protección (*) transgresión", p: 100, x: true },
+        { id: 41, c: "Condiciones Inseguras", d: "Excavación sin señalizar (*) transgresión", p: 100, x: true },
+        { id: 42, c: "Condiciones Inseguras", d: "Equipos de izaje deficientes (*) transgresión", p: 100, x: true },
+        { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos (*) transgresión", p: 100, x: true },
+        { id: 44, c: "Condiciones Inseguras", d: "Cilindros de gases no asegurados", p: 10, x: false },
+        { id: 45, c: "Condiciones Inseguras", d: "Depósitos combustibles inadecuados (*) transgresión", p: 100, x: true },
         { id: 46, c: "Condiciones Inseguras", d: "Falta de orden y limpieza", p: 10, x: false },
-        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en áreas (x)", p: 10, x: true },
-        { id: 48, c: "Medio Ambiente", d: "Inadecuada disposición de residuos (x)", p: 20, x: true },
-        { id: 49, c: "Medio Ambiente", d: "Falta de medios para contención de derrames", p: 15, x: false },
+        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en áreas (*) transgresión", p: 100, x: true },
+        { id: 48, c: "Medio Ambiente", d: "Inadecuada disposicion residuos (*) transgresión", p: 100, x: true },
+        { id: 49, c: "Medio Ambiente", d: "Falta medios contención derrames", p: 15, x: false },
         { id: 50, c: "Medio Ambiente", d: "Desconocimiento aspectos ambientales", p: 15, x: false },
-        { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true },
-        { id: 52, c: "Transporte", d: "Sin alarma de retroceso (x)", p: 50, x: true },
-        { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (x)", p: 30, x: true },
-        { id: 54, c: "Accidentología", d: "Accidente o primer auxilio riesgo bajo", p: 2.5, x: false },
-        { id: 55, c: "Accidentología", d: "Accidente o primer auxilio riesgo medio", p: 5, x: false },
-        { id: 56, c: "Accidentología", d: "Accidente o primer auxilio riesgo alto", p: 10, x: false }
+        { id: 51, c: "Transporte", d: "Exceso de velocidad (*) transgresión", p: 100, x: true },
+        { id: 52, c: "Transporte", d: "Sin alarma de retroceso (*) transgresión", p: 100, x: true },
+        { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (*) transgresión", p: 100, x: true },
+        { id: 54, c: "Accidentologia", d: "Accidente Riesgo Bajo", p: 10, x: false },
+        { id: 55, c: "Accidentologia", d: "Accidente Riesgo Medio", p: 20, x: false },
+        { id: 56, c: "Accidentologia", d: "Accidente Riesgo Alto", p: 50, x: false }
     ];
 
     function calc() {
-        let sx = 0, snx = 0;
         const n = parseFloat(document.getElementById('n_ops').value) || 1;
-        document.querySelectorAll('.input-desvio').forEach(i => {
-            let v = parseFloat(i.value) || 0;
-            let p = parseFloat(i.dataset.p);
-            if(i.dataset.x === "true") sx += (v * p); else snx += (v * p);
+        let transgresionSum = 0;
+        let standardScoreDetected = 0;
+        let standardPotentialMax = 0;
+
+        itemsData.forEach(item => {
+            const input = document.getElementById(`val-${item.id}`);
+            const val = parseFloat(input ? input.value : 0) || 0;
+
+            if (item.x) { // Es (*) transgresión
+                if (val > 0) transgresionSum += (val * 100); 
+            } else { // Estándar
+                standardPotentialMax += (item.p * n);
+                standardScoreDetected += (val * item.p);
+            }
         });
-        let st = (snx / n) + sx;
-        let idx = st * 10;
+
+        // Porcentaje estándar (tope 100) + Suma de transgresiones
+        let standardPct = (standardScoreDetected / standardPotentialMax) * 100;
+        if (standardPct > 100) standardPct = 100;
+
+        let totalIdx = standardPct + transgresionSum;
         
         const resIdx = document.getElementById('res-idx');
-        document.getElementById('res-st').innerText = st.toFixed(2);
-        resIdx.innerText = idx.toFixed(1);
+        resIdx.innerText = totalIdx.toFixed(1) + "%";
 
         const fr = document.getElementById('f_restringida');
         let hoy = new Date();
-        
-        if (idx > 50) {
-            resIdx.style.color = "var(--danger)";
-            hoy.setHours(hoy.getHours() + 24);
-        } else if (idx >= 20) {
-            resIdx.style.color = "var(--warning)";
-            hoy.setDate(hoy.getDate() + 15);
-        } else {
-            resIdx.style.color = "var(--success)";
-            hoy.setMonth(hoy.getMonth() + 2);
+
+        if (totalIdx > 50) { 
+            resIdx.style.color = "var(--danger)"; 
+            hoy.setHours(hoy.getHours() + 24); 
+        } else if (totalIdx >= 20) { 
+            resIdx.style.color = "var(--warning)"; 
+            hoy.setDate(hoy.getDate() + 15); 
+        } else { 
+            resIdx.style.color = "var(--success)"; 
+            hoy.setMonth(hoy.getMonth() + 2); 
         }
         if(!isAdmin) fr.value = hoy.toISOString().split('T')[0];
-    }
-
-    function handlePhoto(input, imgId, btnId) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.getElementById(imgId);
-                img.src = e.target.result; img.style.display = 'block';
-                document.getElementById(btnId).classList.add('btn-enabled');
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function addWorker() {
-        const container = document.getElementById('workers-container');
-        const div = document.createElement('div');
-        div.className = 'card worker-card';
-        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
-        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
-        div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
-        container.appendChild(div);
-    }
-
-    function handleAdminSelect(sel) {
-        if(sel.value === 'Admin') {
-            if(prompt("Clave Administrador:") === ADMIN_PASS) { isAdmin = true; document.getElementById('f_restringida').disabled = false; }
-            else { sel.value = ""; alert("Clave Incorrecta"); }
-        } else { isAdmin = false; document.getElementById('f_restringida').disabled = true; }
-        calc();
     }
 
     function renderItems() {
@@ -293,7 +278,7 @@
                     <div class="item-controls">
                         <button class="btn-status" onclick="setStatus(${item.id}, 'ok')">✓</button>
                         <button class="btn-status" onclick="setStatus(${item.id}, 'na')">X</button>
-                        <input type="number" class="input-desvio" id="val-${item.id}" data-p="${item.p}" data-x="${item.x}" value="0" oninput="setStatus(${item.id}, 'fail'); saveLocal()">
+                        <input type="number" class="input-desvio" id="val-${item.id}" value="0" oninput="setStatus(${item.id}, 'fail'); saveLocal()">
                     </div>
                 </div>`;
         });
@@ -312,39 +297,38 @@
         calc();
     }
 
-    async function fetchHistory() {
-        const selectedSuper = document.getElementById('c_super').value;
-        const container = document.getElementById('hist-container');
-        if (!selectedSuper) { alert("Seleccione un supervisor."); return; }
-        container.style.display = 'block'; container.innerHTML = "Cargando...";
-        try {
-            const res = await fetch(WEB_APP_URL);
-            const data = await res.json();
-            const filtered = isAdmin ? data : data.filter(h => h.supervisor === selectedSuper);
-            container.innerHTML = filtered.length ? "" : "No hay registros.";
-            filtered.reverse().forEach(h => {
-                const div = document.createElement('div'); div.className = 'history-item';
-                div.innerHTML = `📅 ${new Date(h.fecha).toLocaleDateString()} - 📍 ${h.sector} ${isAdmin ? '👤 '+h.supervisor : ''}`;
-                container.appendChild(div);
-            });
-        } catch (e) { container.innerHTML = "Error de conexión."; }
+    function handleAdminSelect(sel) {
+        if(sel.value === 'Admin') {
+            if(prompt("Clave Administrador:") === ADMIN_PASS) { isAdmin = true; document.getElementById('f_restringida').disabled = false; }
+            else { sel.value = ""; alert("Clave Incorrecta"); }
+        } else { isAdmin = false; document.getElementById('f_restringida').disabled = true; }
+        calc();
+    }
+
+    function handlePhoto(input, imgId, btnId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById(imgId);
+                img.src = e.target.result; img.style.display = 'block';
+                document.getElementById(btnId).classList.add('btn-enabled');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     async function saveToDrive(estado, downloadPDF = false) {
         const payload = {
             sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
-            operarios: document.getElementById('n_ops').value, subtotal: document.getElementById('res-st').innerText,
-            indice: document.getElementById('res-idx').innerText, inseguras: document.getElementById('c_inseguras').value,
-            correctivas: document.getElementById('c_correctivas').value, observaciones: document.getElementById('c_obs').value,
-            fecha_estimada: document.getElementById('f_restringida').value, fecha_real: document.getElementById('f_cierre_real').value,
+            operarios: document.getElementById('n_ops').value, indice: document.getElementById('res-idx').innerText,
             estado: estado
         };
         try {
             await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            alert("Guardado en Drive.");
+            alert("Base de Datos sincronizada.");
             if(estado === 'GUARDADA') lockApp();
             if(downloadPDF) makePDF();
-        } catch (e) { alert("Error"); }
+        } catch (e) { alert("Error."); }
     }
 
     function lockApp() {
@@ -352,6 +336,15 @@
         document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
         document.getElementById('add-op-btn').style.display = 'none';
         saveLocal();
+    }
+
+    function addWorker() {
+        const div = document.createElement('div');
+        div.className = 'card worker-card';
+        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respiratoria'];
+        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
+        div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
+        document.getElementById('workers-container').appendChild(div);
     }
 
     function saveLocal() {
@@ -365,7 +358,7 @@
         if (!saved) return;
         const d = JSON.parse(saved);
         document.getElementById('c_sector').value = d.sector || ""; document.getElementById('c_super').value = d.super || "";
-        document.getElementById('n_ops').value = d.n_ops || 1; document.getElementById('f_insp').value = d.f_insp || "";
+        document.getElementById('n_ops').value = d.n_ops || 1;
         if(d.isLocked) lockApp();
         calc();
     }

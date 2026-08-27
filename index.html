@@ -6,41 +6,34 @@
     <title>Dohm S.A. - Gestión Integral SHMA</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; }
+        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; --warning: #f39c12; }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); margin: 0; padding-bottom: 90px; color: var(--text); }
+        body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
         header { background: var(--primary); color: white; padding: 15px; text-align: center; }
-        
-        /* SUBTÍTULO DEL ENCABEZADO AGRANDADO */
+        header strong { font-size: 1.4rem; }
         header small { opacity: 0.9; font-size: 1.1rem; font-weight: bold; display: block; margin-top: 5px; }
         
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
         .container { padding: 6px; max-width: 650px; margin: auto; }
         .card { background: var(--white); border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #eee; position: relative; }
-        
-        /* TÍTULOS DE SECCIONES (H3) AGRANDADOS */
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
+        h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
         
         .field { margin-bottom: 12px; }
-        
-        /* ETIQUETAS (LABELS) AGRANDADAS */
         label { display: block; font-size: 0.95rem; font-weight: bold; margin-bottom: 4px; color: #444; }
-        
-        /* TEXTO DENTRO DE MENÚS Y CAMPOS AGRANDADOS */
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1.1rem; background: #fff; color: #000; }
         input:disabled, select:disabled, textarea:disabled { background: #e9ecef !important; color: #666 !important; }
 
-        /* INSPECCIÓN EN 1 RENGLÓN */
-        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 6px; border-bottom: 1px solid #f2f2f2; gap: 4px; }
-        .item-desc { flex: 1; font-size: 0.8rem; line-height: 1.2; color: #333; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal; }
+        /* INSPECCIÓN */
+        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; border-bottom: 1px solid #f2f2f2; gap: 8px; min-height: 55px; }
+        .item-desc { flex: 1; font-size: 0.85rem; line-height: 1.2; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .item-controls { display: flex; gap: 4px; flex-shrink: 0; }
-        .btn-status { border: 1px solid #ccc; height: 26px; width: 26px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
+        .btn-status { border: 1px solid #ccc; height: 28px; width: 28px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
         .active-ok { background: var(--success) !important; color: white; border-color: var(--success); }
         .active-na { background: var(--na) !important; color: white; border-color: var(--na); }
-        .input-desvio { width: 34px; text-align: center; border: 1px solid #ccc; height: 26px; border-radius: 3px; font-size: 0.9rem; padding: 0; }
+        .input-desvio { width: 34px; text-align: center; border: 1px solid #ccc; height: 28px; border-radius: 3px; font-size: 0.9rem; padding: 0; }
         .is-fail-row { background-color: #f8d7da !important; }
 
         /* EPP */
@@ -51,8 +44,8 @@
         .epp-box select { padding: 3px; font-size: 0.9rem; height: auto; }
 
         /* FOTOS Y BOTONES */
-        .photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; max-height: 200px; object-fit: contain; background: #eee; display: none; }
-        .btn-action { background: #6c757d; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 6px; cursor: pointer; font-size: 1rem; }
+        .photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; max-height: 220px; object-fit: contain; background: #eee; display: none; }
+        .btn-action { background: #6c757d; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 6px; cursor: pointer; font-size: 1rem; display: none; }
         .btn-enabled { display: block !important; background: var(--success) !important; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         /* FOOTER CENTRADO */
@@ -63,6 +56,7 @@
         .tab-content.active { display: block; }
         .no-pdf { display: block; }
         .history-item { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; background: #fff; cursor: pointer; }
+        .legend { font-size: 0.65rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -70,7 +64,7 @@
 <div id="capture-area">
     <header>
         <strong>DOHM S.A.</strong><br>
-        <small id="lock-status">Inspección de Seguridad y Medio Ambiente</small>
+        <small>Inspección de Seguridad y Medio Ambiente</small>
     </header>
 
     <nav class="tabs no-pdf">
@@ -82,10 +76,10 @@
     </nav>
 
     <div class="container">
-        <!-- SECCIÓN 1: GENERAL -->
+        <!-- GENERAL -->
         <div id="t1" class="tab-content active">
             <div class="card">
-                <h3>Datos de Campo</h3>
+                <h3>Información de Campo</h3>
                 <div class="field"><label>Sector / Lugar específico</label><input type="text" id="c_sector" oninput="saveLocal()"></div>
                 <div class="field">
                     <label>Supervisor</label>
@@ -99,7 +93,7 @@
                         <option>Torres Ramón</option>
                     </select>
                 </div>
-                <div class="field"><label>Cant. Operarios</label><input type="number" id="n_ops" value="1" oninput="calc(); saveLocal()"></div>
+                <div class="field"><label>Cant. Operarios</label><input type="number" id="n_ops" value="1" min="1" oninput="calc(); saveLocal()"></div>
                 <div style="display:flex; gap:8px;">
                     <div class="field" style="flex:1"><label>Fecha</label><input type="date" id="f_insp" oninput="saveLocal()"></div>
                     <div class="field" style="flex:1"><label>Hora</label><input type="time" id="h_insp" oninput="saveLocal()"></div>
@@ -109,21 +103,22 @@
             </div>
         </div>
 
-        <!-- SECCIÓN 2: INSPECCIÓN -->
+        <!-- INSPECCIÓN -->
         <div id="t2" class="tab-content">
+            <div class="legend"><b>✓:</b> OK | <b>X:</b> N/A | <b>Núm:</b> Desvío</div>
             <div id="items-list"></div>
         </div>
 
-        <!-- SECCIÓN 3: EPP -->
+        <!-- EPP -->
         <div id="t3" class="tab-content">
             <div id="workers-container"></div>
             <button id="add-op-btn" class="btn-green no-pdf" style="background:var(--accent); color:white; border:none; padding:15px; border-radius:8px; width:100%; font-weight:bold;" onclick="addWorker(); saveLocal()">+ AGREGAR OPERARIO</button>
         </div>
 
-        <!-- SECCIÓN 4: OPORTUNIDADES -->
+        <!-- OPORTUNIDADES -->
         <div id="t4" class="tab-content">
             <div class="card">
-                <div class="field"><label>Actitudes/Condiciones Inseguras</label><textarea rows="3" id="c_inseguras" oninput="saveLocal()"></textarea></div>
+                <div class="field"><label>Actitudes/Condiciones Inseguras Detectadas</label><textarea rows="3" id="c_inseguras" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Medidas Correctivas Propuestas</label><textarea rows="3" id="c_correctivas" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Observaciones Generales</label><textarea rows="3" id="c_obs" oninput="saveLocal()"></textarea></div>
                 <hr>
@@ -138,7 +133,7 @@
             </div>
         </div>
 
-        <!-- SECCIÓN 5: FOTOS -->
+        <!-- FOTOS -->
         <div id="t5" class="tab-content">
             <div class="card">
                 <h3>Desvío hallado</h3>
@@ -159,11 +154,12 @@
 
 <div class="footer-score no-pdf">
     <div>SUBT: <span class="stat-val" id="res-st">0.00</span></div>
-    <div>ÍNDICE: <span class="stat-val" id="res-idx" style="color:#2ecc71">0.0</span></div>
+    <div>ÍNDICE: <span class="stat-val" id="res-idx">0.0</span></div>
 </div>
 
 <script>
     const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT"; 
+    const ADMIN_PASS = "Admin.Dohm";
     let isLocked = false;
     let isAdmin = false;
 
@@ -179,9 +175,9 @@
         { id: 9, c: "Proteccion Personal", d: "No uso de protector respiratorio", p: 5, x: false },
         { id: 10, c: "Proteccion Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
         { id: 11, c: "Proteccion Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
-        { id: 12, c: "Proteccion Personal", d: "No uso de arnes de seguridad (x)", p: 50, x: true },
-        { id: 13, c: "Proteccion Personal", d: "No uso de arnes amarrado a punto fijo (x)", p: 50, x: true },
-        { id: 14, c: "Actitudes Inseguras", d: "Fumar en areas no autorizadas (x)", p: 50, x: true },
+        { id: 12, c: "Proteccion Personal", d: "No uso de arnés de seguridad (x)", p: 50, x: true },
+        { id: 13, c: "Proteccion Personal", d: "No uso de arnés amarrado a punto fijo (x)", p: 50, x: true },
+        { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas no autorizadas (x)", p: 50, x: true },
         { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo / OT (x)", p: 50, x: true },
         { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (x)", p: 50, x: true },
         { id: 17, c: "Actitudes Inseguras", d: "Falta de APR", p: 50, x: false },
@@ -196,17 +192,17 @@
         { id: 26, c: "Actitudes Inseguras", d: "Realizar tareas superpuestas sin coordinacion", p: 30, x: false },
         { id: 27, c: "Actitudes Inseguras", d: "Desconocimiento de los riesgos de la tarea", p: 15, x: false },
         { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto de herramientas / equipos", p: 15, x: false },
-        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificacion", p: 20, x: false },
+        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificacion / pedestales", p: 20, x: false },
         { id: 30, c: "Actitudes Inseguras", d: "Transgresion de vallados (x)", p: 30, x: true },
-        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos", p: 30, x: false },
-        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas", p: 30, x: false },
+        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos (atrapamientos, golpes)", p: 30, x: false },
+        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas (golpes)", p: 30, x: false },
         { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir o desconocida", p: 30, x: false },
         { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrectamente (x)", p: 30, x: true },
         { id: 35, c: "Condiciones Inseguras", d: "Instalacion electrica deficiente (x)", p: 30, x: true },
         { id: 36, c: "Condiciones Inseguras", d: "Tableros portatiles sin proteccion diferencial", p: 20, x: false },
         { id: 37, c: "Condiciones Inseguras", d: "Herramientas deterioradas", p: 10, x: false },
         { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 20, x: false },
-        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin valvula (x)", p: 20, x: true },
+        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin valvula de seguridad (x)", p: 20, x: true },
         { id: 40, c: "Condiciones Inseguras", d: "Maquinas herramientas sin proteccion (x)", p: 15, x: true },
         { id: 41, c: "Condiciones Inseguras", d: "Excavacion sin señalizar / vallar (x)", p: 20, x: true },
         { id: 42, c: "Condiciones Inseguras", d: "Equipos / sistemas de izaje deficientes (x)", p: 50, x: true },
@@ -217,7 +213,7 @@
         { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en areas (x)", p: 10, x: true },
         { id: 48, c: "Medio Ambiente", d: "Inadecuada disposicion de residuos (x)", p: 20, x: true },
         { id: 49, c: "Medio Ambiente", d: "Falta de medios para contencion de derrames", p: 15, x: false },
-        { id: 50, c: "Medio Ambiente", d: "Desconocimiento de aspectos ambientales", p: 15, x: false },
+        { id: 50, c: "Medio Ambiente", d: "Desconocimiento aspectos ambientales", p: 15, x: false },
         { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true },
         { id: 52, c: "Transporte", d: "Sin alarma de retroceso (x)", p: 50, x: true },
         { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (x)", p: 30, x: true },
@@ -225,6 +221,48 @@
         { id: 55, c: "Accidentologia", d: "Accidente o primer auxilio riesgo medio", p: 5, x: false },
         { id: 56, c: "Accidentologia", d: "Accidente o primer auxilio riesgo alto", p: 10, x: false }
     ];
+
+    function calc() {
+        let sx = 0, snx = 0;
+        const n = parseFloat(document.getElementById('n_ops').value) || 1;
+        document.querySelectorAll('.input-desvio').forEach(i => {
+            let v = parseFloat(i.value) || 0;
+            let p = parseFloat(i.dataset.p);
+            if(i.dataset.x === "true") sx += (v * p); else snx += (v * p);
+        });
+        let st = (snx / n) + sx;
+        let idx = st * 10;
+        
+        const resIdx = document.getElementById('res-idx');
+        document.getElementById('res-st').innerText = st.toFixed(2);
+        resIdx.innerText = idx.toFixed(1);
+
+        // NUEVA LÓGICA DE COLORES Y PLAZOS
+        const fr = document.getElementById('f_restringida');
+        let hoy = new Date();
+        
+        if (idx > 50) {
+            resIdx.style.color = "var(--danger)"; // Rojo
+            hoy.setHours(hoy.getHours() + 24);
+        } else if (idx >= 20) {
+            resIdx.style.color = "var(--warning)"; // Amarillo/Naranja
+            hoy.setDate(hoy.getDate() + 15);
+        } else {
+            resIdx.style.color = "var(--success)"; // Verde
+            hoy.setMonth(hoy.getMonth() + 2);
+        }
+        
+        if(!isAdmin) fr.value = hoy.toISOString().split('T')[0];
+    }
+
+    function handleAdminSelect(sel) {
+        if(sel.value === 'Admin') {
+            if(prompt("Clave Administrador (Admin.Dohm):") === ADMIN_PASS) {
+                isAdmin = true; document.getElementById('f_restringida').disabled = false;
+            } else { sel.value = ""; alert("Clave Incorrecta"); isAdmin = false; }
+        } else { isAdmin = false; document.getElementById('f_restringida').disabled = true; }
+        calc();
+    }
 
     function renderItems() {
         const container = document.getElementById('items-list');
@@ -256,32 +294,6 @@
         calc();
     }
 
-    async function saveToDrive(estado, downloadPDF = false) {
-        const payload = {
-            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
-            operarios: document.getElementById('n_ops').value, subtotal: document.getElementById('res-st').innerText,
-            indice: document.getElementById('res-idx').innerText, inseguras: document.getElementById('c_inseguras').value,
-            correctivas: document.getElementById('c_correctivas').value, observaciones: document.getElementById('c_obs').value,
-            fecha_estimada: document.getElementById('f_restringida').value, fecha_real: document.getElementById('f_cierre_real').value,
-            estado: estado
-        };
-        try {
-            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            alert("Base de Datos sincronizada con éxito.");
-            if(estado === 'GUARDADA') lockApp();
-            if(downloadPDF) makePDF();
-        } catch (e) { alert("Error al guardar."); }
-    }
-
-    function lockApp() {
-        isLocked = true;
-        document.getElementById('lock-status').innerText = "MODO: CONSULTA (BLOQUEADO)";
-        document.getElementById('lock-status').style.color = "red";
-        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
-        document.getElementById('add-op-btn').style.display = 'none';
-        saveLocal();
-    }
-
     function handlePhoto(input, imgId, btnId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -294,27 +306,31 @@
         }
     }
 
-    function calc() {
-        let sx = 0, snx = 0;
-        const n = parseFloat(document.getElementById('n_ops').value) || 1;
-        document.querySelectorAll('.input-desvio').forEach(i => {
-            let v = parseFloat(i.value) || 0; let p = parseFloat(i.dataset.p);
-            if(i.dataset.x === "true") sx += (v * p); else snx += (v * p);
-        });
-        let st = (snx / n) + sx; let idx = st * 10;
-        document.getElementById('res-st').innerText = st.toFixed(2);
-        document.getElementById('res-idx').innerText = idx.toFixed(1);
-        const fr = document.getElementById('f_restringida');
-        let m = idx > 50 ? 1 : idx >= 20 ? 2 : 3;
-        let d = new Date(); d.setMonth(d.getMonth() + m);
-        fr.value = d.toISOString().split('T')[0];
+    async function saveToDrive(estado, downloadPDF = false) {
+        if(!WEB_APP_URL || WEB_APP_URL.includes("TU_URL")) return alert("Configura la URL de Drive");
+        const payload = {
+            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
+            operarios: document.getElementById('n_ops').value, subtotal: document.getElementById('res-st').innerText,
+            indice: document.getElementById('res-idx').innerText, inseguras: document.getElementById('c_inseguras').value,
+            correctivas: document.getElementById('c_correctivas').value, observaciones: document.getElementById('c_obs').value,
+            fecha_estimada: document.getElementById('f_restringida').value, fecha_real: document.getElementById('f_cierre_real').value,
+            estado: estado
+        };
+        try {
+            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            alert("Base de Datos sincronizada.");
+            if(estado === 'GUARDADA') lockApp();
+            if(downloadPDF) makePDF();
+        } catch (e) { alert("Error"); }
     }
 
-    function handleAdminSelect(sel) {
-        if(sel.value === 'Admin') {
-            if(prompt("Clave Administrador (Admin.Dohm):") === "Admin.Dohm") { isAdmin = true; document.getElementById('f_restringida').disabled = false; }
-            else { sel.value = ""; alert("Clave Incorrecta"); }
-        }
+    function lockApp() {
+        isLocked = true;
+        document.getElementById('lock-status').innerText = "MODO: CONSULTA (BLOQUEADO)";
+        document.getElementById('lock-status').style.color = "red";
+        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
+        document.getElementById('add-op-btn').style.display = 'none';
+        saveLocal();
     }
 
     function addWorker() {
@@ -324,6 +340,25 @@
         let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
         div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
         document.getElementById('workers-container').appendChild(div);
+    }
+
+    async function fetchHistory() {
+        const selectedSuper = document.getElementById('c_super').value;
+        const container = document.getElementById('hist-container');
+        if (!selectedSuper) { alert("Seleccione un supervisor."); return; }
+        container.style.display = 'block'; container.innerHTML = "Cargando...";
+        try {
+            const res = await fetch(WEB_APP_URL);
+            const data = await res.json();
+            const filtered = isAdmin ? data : data.filter(h => h.supervisor === selectedSuper);
+            container.innerHTML = filtered.length ? "" : "No hay registros.";
+            filtered.reverse().forEach(h => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `📅 ${new Date(h.fecha).toLocaleDateString()} - 📍 ${h.sector} ${isAdmin ? '👤 '+h.supervisor : ''}`;
+                container.appendChild(div);
+            });
+        } catch (e) { container.innerHTML = "Error de conexión."; }
     }
 
     function saveLocal() {

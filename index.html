@@ -9,26 +9,18 @@
         :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; --warning: #f39c12; }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
-        
         header { background: var(--primary); color: white; padding: 15px; text-align: center; }
         header strong { font-size: 1.4rem; }
         header small { opacity: 0.9; font-size: 1.2rem; font-weight: bold; display: block; margin-top: 5px; color: #fff; }
-        
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; outline: none; }
         .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
-
         .container { padding: 6px; max-width: 650px; margin: auto; }
         .card { background: var(--white); border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #eee; position: relative; }
-        
-        /* ENCABEZADOS Y MENÚS AGRANDADOS */
         h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
-        .field { margin-bottom: 12px; }
         label { display: block; font-size: 1rem; font-weight: bold; margin-bottom: 4px; color: #444; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1.1rem; background: #fff; color: #000; }
         input:disabled, select:disabled, textarea:disabled { background: #e9ecef !important; color: #666 !important; }
-
-        /* INSPECCIÓN - TEXTO GRANDE 2 RENGLONES */
         .check-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; border-bottom: 1px solid #f2f2f2; gap: 8px; min-height: 65px; }
         .item-desc { flex: 1; font-size: 0.95rem; line-height: 1.2; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
         .item-controls { display: flex; gap: 4px; flex-shrink: 0; }
@@ -37,23 +29,15 @@
         .active-na { background: var(--na) !important; color: white; border-color: var(--na); }
         .input-desvio { width: 42px; text-align: center; border: 1px solid #ccc; height: 32px; border-radius: 3px; font-size: 1rem; padding: 0; }
         .is-fail-row { background-color: #f8d7da !important; }
-
-        /* EPP */
-        .btn-delete-epp { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; cursor: pointer; position: absolute; top: 8px; right: 8px; }
-        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 10px; }
+        .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 15px; }
         .epp-box { background: #f9f9f9; padding: 4px; border-radius: 4px; border: 1px solid #eee; text-align: center; }
-        .epp-box label { font-size: 0.6rem; color: #777; margin-bottom: 2px; text-transform: uppercase; }
-
-        /* FOTOS Y BOTONES DINÁMICOS */
+        .epp-box label { font-size: 0.65rem; color: #777; margin-bottom: 2px; text-transform: uppercase; }
         .photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; max-height: 220px; object-fit: contain; background: #eee; display: none; }
         .btn-action { background: #6c757d; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 8px; cursor: pointer; font-size: 1rem; display: none; }
         .btn-enabled { display: block !important; background: var(--success) !important; box-shadow: 0 4px 8px rgba(39,174,96,0.3); }
-
-        /* FOOTER CENTRADO */
         .footer-score { position: fixed; bottom: 0; width: 100%; background: var(--primary); color: white; padding: 12px; display: flex; justify-content: center; align-items: center; z-index: 1000; border-top: 2px solid var(--accent); }
         .idx-container { text-align: center; font-weight: bold; font-size: 1.1rem; }
         .stat-val { font-size: 1.6rem; margin-left: 10px; transition: color 0.3s; }
-
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .no-pdf { display: block; }
@@ -66,7 +50,7 @@
 <div id="capture-area">
     <header>
         <strong>DOHM S.A.</strong><br>
-        <small>Inspección SHMA</small>
+        <small id="sub-title">Inspección de Seguridad y Medio Ambiente</small>
     </header>
 
     <nav class="tabs no-pdf">
@@ -78,7 +62,7 @@
     </nav>
 
     <div class="container">
-        <!-- SECCIÓN 1: GENERAL -->
+        <!-- GENERAL -->
         <div id="t1" class="tab-content active">
             <div class="card">
                 <h3>Información de Campo</h3>
@@ -105,40 +89,30 @@
             </div>
         </div>
 
-        <!-- SECCIÓN 2: INSPECCIÓN (56 ÍTEMS) -->
+        <!-- INSPECCIÓN -->
         <div id="t2" class="tab-content">
-            <div class="legend">
-                <b>✓:</b> OK | <b>X:</b> N/A | <b>Núm:</b> Desvío <br>
-                <b>(*):</b> Transgresión Directa (+100% Riesgo por unidad)
-            </div>
             <div id="items-list"></div>
         </div>
 
-        <!-- SECCIÓN 3: EPP -->
+        <!-- EPP -->
         <div id="t3" class="tab-content">
             <div id="workers-container"></div>
             <button id="add-op-btn" class="btn-green no-pdf" style="background:var(--accent); color:white; border:none; padding:15px; border-radius:8px; width:100%; font-weight:bold;" onclick="addWorker(); saveLocal()">+ AGREGAR OPERARIO</button>
         </div>
 
-        <!-- SECCIÓN 4: OPORTUNIDADES -->
+        <!-- OPORTUNIDADES -->
         <div id="t4" class="tab-content">
             <div class="card">
                 <div class="field"><label>Actitudes/Condiciones Inseguras Detectadas</label><textarea rows="3" id="c_inseguras" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Medidas Correctivas Propuestas</label><textarea rows="3" id="c_correctivas" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Observaciones Generales</label><textarea rows="3" id="c_obs" oninput="saveLocal()"></textarea></div>
                 <hr>
-                <div class="field">
-                    <label>Fecha estimada de cumplimiento (Autom)</label>
-                    <input type="date" id="f_restringida" disabled>
-                </div>
-                <div class="field">
-                    <label>Fecha real de cumplimiento</label>
-                    <input type="date" id="f_cierre_real" oninput="saveLocal()">
-                </div>
+                <div class="field"><label>Fecha estimada de cumplimiento (Autom)</label><input type="date" id="f_restringida" disabled></div>
+                <div class="field"><label>Fecha real de cumplimiento</label><input type="date" id="f_cierre_real" oninput="saveLocal()"></div>
             </div>
         </div>
 
-        <!-- SECCIÓN 5: FOTOS -->
+        <!-- FOTOS -->
         <div id="t5" class="tab-content">
             <div class="card">
                 <h3>Desvío hallado</h3>
@@ -152,7 +126,7 @@
                 <img id="img-corregido" class="photo-preview">
                 <button id="btn-cierre-pdf" class="btn-action" onclick="saveToDrive('CERRADA', true)">CIERRE DE OPORTUNIDAD</button>
             </div>
-            <button class="no-pdf" onclick="resetApp()" style="margin-top:20px; border:none; background:none; color:red; font-size:0.8rem; width:100%">REINICIAR FORMULARIO</button>
+            <button class="no-pdf" onclick="resetApp()" style="margin-top:20px; border:none; background:none; color:red; font-size:0.8rem; width:100%">REINICIAR INSPECCIÓN</button>
         </div>
     </div>
 </div>
@@ -162,26 +136,27 @@
 </div>
 
 <script>
-    const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT"; 
+    /* LÍNEA DE CONEXIÓN CON GOOGLE SHEETS */
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwND6HTu0LqSbBpkwmoTw02OYyEHLXCi_BMyBBq8PhSeBY9Y5NCoDc1NiLxWIBnCDSXsQ/exec"; 
+    
     const ADMIN_PASS = "Admin.Dohm";
     let isLocked = false;
     let isAdmin = false;
 
-    // TRANSCRIPCIÓN OFICIAL COMPLETA (56 ÍTEMS)
     const itemsData = [
-        { id: 1, c: "Proteccion Personal", d: "No uso de anteojos", p: 10, x: false },
-        { id: 2, c: "Proteccion Personal", d: "No uso de antiparras", p: 10, x: false },
-        { id: 3, c: "Proteccion Personal", d: "No uso de proteccion facial", p: 10, x: false },
-        { id: 4, c: "Proteccion Personal", d: "No uso de careta de soldar (*) transgresión", p: 100, x: true },
-        { id: 5, c: "Proteccion Personal", d: "No uso de protectores auditivos", p: 10, x: false },
-        { id: 6, c: "Proteccion Personal", d: "No uso de casco", p: 10, x: false },
-        { id: 7, c: "Proteccion Personal", d: "No uso de guantes", p: 10, x: false },
-        { id: 8, c: "Proteccion Personal", d: "No uso de calzado de seguridad", p: 10, x: false },
-        { id: 9, c: "Proteccion Personal", d: "No uso de protector respiratorio", p: 10, x: false },
-        { id: 10, c: "Proteccion Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
-        { id: 11, c: "Proteccion Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
-        { id: 12, c: "Proteccion Personal", d: "No uso de arnés de seguridad (*) transgresión", p: 100, x: true },
-        { id: 13, c: "Proteccion Personal", d: "No uso de arnés amarrado (*) transgresión", p: 100, x: true },
+        { id: 1, c: "Protección Personal", d: "No uso de anteojos", p: 10, x: false },
+        { id: 2, c: "Protección Personal", d: "No uso de antiparras", p: 10, x: false },
+        { id: 3, c: "Protección Personal", d: "No uso de proteccion facial", p: 10, x: false },
+        { id: 4, c: "Protección Personal", d: "No uso de careta de soldar (*) transgresión", p: 100, x: true },
+        { id: 5, c: "Protección Personal", d: "No uso de protectores auditivos", p: 10, x: false },
+        { id: 6, c: "Protección Personal", d: "No uso de casco", p: 10, x: false },
+        { id: 7, c: "Protección Personal", d: "No uso de guantes", p: 10, x: false },
+        { id: 8, c: "Protección Personal", d: "No uso de calzado de seguridad", p: 10, x: false },
+        { id: 9, c: "Protección Personal", d: "No uso de protector respiratorio", p: 10, x: false },
+        { id: 10, c: "Protección Personal", d: "No uso de ropa de trabajo", p: 10, x: false },
+        { id: 11, c: "Protección Personal", d: "No uso de ropa de tela ignifuga", p: 10, x: false },
+        { id: 12, c: "Protección Personal", d: "No uso de arnés de seguridad (*) transgresión", p: 100, x: true },
+        { id: 13, c: "Protección Personal", d: "No uso de arnés amarrado (*) transgresión", p: 100, x: true },
         { id: 14, c: "Actitudes Inseguras", d: "Fumar en áreas no autorizadas (*) transgresión", p: 100, x: true },
         { id: 15, c: "Actitudes Inseguras", d: "Falta de permiso de trabajo (*) transgresión", p: 100, x: true },
         { id: 16, c: "Actitudes Inseguras", d: "Falta de procedimiento (*) transgresión", p: 100, x: true },
@@ -197,14 +172,14 @@
         { id: 26, c: "Actitudes Inseguras", d: "Realizar tareas superpuestas sin coord.", p: 15, x: false },
         { id: 27, c: "Actitudes Inseguras", d: "Desconocimiento de los riesgos", p: 15, x: false },
         { id: 28, c: "Actitudes Inseguras", d: "Uso incorrecto de herramientas", p: 10, x: false },
-        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificación / pedestales", p: 10, x: false },
+        { id: 29, c: "Actitudes Inseguras", d: "Vallado sin identificación", p: 10, x: false },
         { id: 30, c: "Actitudes Inseguras", d: "Transgresion de vallados (*) transgresión", p: 100, x: true },
-        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos (golpes)", p: 15, x: false },
-        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas (golpes)", p: 15, x: false },
+        { id: 31, c: "Actitudes Inseguras", d: "Exposicion de manos", p: 15, x: false },
+        { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas", p: 15, x: false },
         { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir", p: 10, x: false },
         { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrecto (*) transgresión", p: 100, x: true },
         { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (*) transgresión", p: 100, x: true },
-        { id: 36, c: "Condiciones Inseguras", d: "Tableros portátiles sin protección", p: 10, x: false },
+        { id: 36, c: "Condiciones Inseguras", d: "Tableros portatiles sin protección", p: 10, x: false },
         { id: 37, c: "Condiciones Inseguras", d: "Herramientas deterioradas", p: 10, x: false },
         { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 10, x: false },
         { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin válvula (*) transgresión", p: 100, x: true },
@@ -222,47 +197,55 @@
         { id: 51, c: "Transporte", d: "Exceso de velocidad (*) transgresión", p: 100, x: true },
         { id: 52, c: "Transporte", d: "Sin alarma de retroceso (*) transgresión", p: 100, x: true },
         { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (*) transgresión", p: 100, x: true },
-        { id: 54, c: "Accidentologia", d: "Accidente Riesgo Bajo", p: 10, x: false },
-        { id: 55, c: "Accidentologia", d: "Accidente Riesgo Medio", p: 20, x: false },
-        { id: 56, c: "Accidentologia", d: "Accidente Riesgo Alto", p: 50, x: false }
+        { id: 54, c: "Accidentología", d: "Accidente Riesgo Bajo", p: 10, x: false },
+        { id: 55, c: "Accidentología", d: "Accidente Riesgo Medio", p: 20, x: false },
+        { id: 56, c: "Accidentología", d: "Accidente Riesgo Alto", p: 50, x: false }
     ];
 
     function calc() {
         const n = parseFloat(document.getElementById('n_ops').value) || 1;
-        let transgresionSum = 0;
-        let standardScoreDetected = 0;
-        let standardPotentialMax = 0;
-
+        let tSum = 0; let sScore = 0; let sPot = 0;
         itemsData.forEach(item => {
             const input = document.getElementById(`val-${item.id}`);
             const val = parseFloat(input ? input.value : 0) || 0;
-
-            if (item.x) { // Es (*) transgresión: cada unidad suma 100%
-                if (val > 0) transgresionSum += (val * 100); 
-            } else { // Estándar: tope máximo de 100% combinado
-                standardPotentialMax += (item.p * n);
-                standardScoreDetected += (val * item.p);
-            }
+            if (item.x) { if (val > 0) tSum += (val * 100); } 
+            else { sPot += (item.p * n); sScore += (val * item.p); }
         });
-
-        let standardPct = (standardScoreDetected / standardPotentialMax) * 100;
-        if (standardPct > 100) standardPct = 100;
-
-        let totalIdx = standardPct + transgresionSum;
+        let sPct = sPot > 0 ? (sScore / sPot) * 100 : 0;
+        if (sPct > 100) sPct = 100;
+        let total = (sPct > 100 ? 100 : sPct) + tSum;
         const resIdx = document.getElementById('res-idx');
-        resIdx.innerText = totalIdx.toFixed(1) + "%";
-
+        resIdx.innerText = total.toFixed(1) + "%";
+        
         const fr = document.getElementById('f_restringida');
         let hoy = new Date();
-
-        if (totalIdx > 50) { 
-            resIdx.style.color = "var(--danger)"; hoy.setHours(hoy.getHours() + 24); 
-        } else if (totalIdx >= 20) { 
-            resIdx.style.color = "var(--warning)"; hoy.setDate(hoy.getDate() + 15); 
-        } else { 
-            resIdx.style.color = "var(--success)"; hoy.setMonth(hoy.getMonth() + 2); 
-        }
+        if (total > 50) { resIdx.style.color = "var(--danger)"; hoy.setHours(hoy.getHours() + 24); } 
+        else if (total >= 20) { resIdx.style.color = "var(--warning)"; hoy.setDate(hoy.getDate() + 15); } 
+        else { resIdx.style.color = "var(--success)"; hoy.setMonth(hoy.getMonth() + 2); }
         if(!isAdmin) fr.value = hoy.toISOString().split('T')[0];
+    }
+
+    async function saveToDrive(estado, downloadPDF = false) {
+        if(!WEB_APP_URL || WEB_APP_URL.includes("TU_URL")) return alert("Falta configurar la URL de Drive");
+        const payload = {
+            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
+            operarios: document.getElementById('n_ops').value, indice: document.getElementById('res-idx').innerText,
+            inseguras: document.getElementById('c_inseguras').value, correctivas: document.getElementById('c_correctivas').value,
+            observaciones: document.getElementById('c_obs').value, fecha_estimada: document.getElementById('f_restringida').value,
+            fecha_real: document.getElementById('f_cierre_real').value, estado: estado
+        };
+        try {
+            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            alert("Información guardada en areaexterna.dohm@gmail.com");
+            if(estado === 'GUARDADA') lockApp();
+            if(downloadPDF) makePDF();
+        } catch (e) { alert("Error al conectar."); }
+    }
+
+    function lockApp() {
+        isLocked = true;
+        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
+        saveLocal();
     }
 
     function renderItems() {
@@ -307,60 +290,32 @@
         }
     }
 
-    async function saveToDrive(estado, downloadPDF = false) {
-        const payload = {
-            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
-            operarios: document.getElementById('n_ops').value, indice: document.getElementById('res-idx').innerText,
-            estado: estado
-        };
-        try {
-            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            alert("Base de Datos sincronizada.");
-            if(estado === 'GUARDADA') lockApp();
-            if(downloadPDF) makePDF();
-        } catch (e) { alert("Error."); }
-    }
-
-    function lockApp() {
-        isLocked = true;
-        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
-        document.getElementById('add-op-btn').style.display = 'none';
-        saveLocal();
-    }
-
     function handleAdminSelect(sel) {
         if(sel.value === 'Admin') {
             if(prompt("Clave Administrador (Admin.Dohm):") === ADMIN_PASS) { isAdmin = true; document.getElementById('f_restringida').disabled = false; }
             else { sel.value = ""; alert("Clave Incorrecta"); }
-        } else { isAdmin = false; document.getElementById('f_restringida').disabled = true; }
-        calc();
+        }
     }
 
     function addWorker() {
         const div = document.createElement('div');
         div.className = 'card worker-card';
-        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respiratoria'];
+        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
         let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
         div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
         document.getElementById('workers-container').appendChild(div);
     }
 
-    async function fetchHistory() {
-        const selectedSuper = document.getElementById('c_super').value;
-        const container = document.getElementById('hist-container');
-        if (!selectedSuper) { alert("Seleccione supervisor."); return; }
-        container.style.display = 'block'; container.innerHTML = "Cargando...";
-        try {
-            const res = await fetch(WEB_APP_URL);
-            const data = await res.json();
-            const filtered = isAdmin ? data : data.filter(h => h.supervisor === selectedSuper);
-            container.innerHTML = filtered.length ? "" : "No hay registros.";
-            filtered.reverse().forEach(h => {
-                const div = document.createElement('div'); div.className = 'history-item';
-                div.innerHTML = `📅 ${new Date(h.fecha).toLocaleDateString()} - 📍 ${h.sector} ${isAdmin ? '👤 '+h.supervisor : ''}`;
-                container.appendChild(div);
-            });
-        } catch (e) { container.innerHTML = "Error."; }
+    function showTab(e, id) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active'); e.currentTarget.classList.add('active');
+    }
+
+    function makePDF() {
+        document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'block');
+        document.querySelectorAll('.no-pdf').forEach(n => n.style.display = 'none');
+        html2pdf().set({ margin: 0.15, filename: 'Inspeccion_Dohm.pdf', html2canvas: { scale: 2 } }).from(document.getElementById('capture-area')).save().then(() => location.reload());
     }
 
     function saveLocal() {
@@ -379,24 +334,30 @@
         calc();
     }
 
-    function showTab(e, id) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active'); e.currentTarget.classList.add('active');
-    }
-
-    function makePDF() {
-        document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'block');
-        document.querySelectorAll('.no-pdf').forEach(n => n.style.display = 'none');
-        html2pdf().set({ margin: 0.15, filename: 'Inspeccion_Dohm.pdf', html2canvas: { scale: 2 } }).from(document.getElementById('capture-area')).save().then(() => location.reload());
+    async function fetchHistory() {
+        const selectedSuper = document.getElementById('c_super').value;
+        const container = document.getElementById('hist-container');
+        if (!selectedSuper) return alert("Seleccione supervisor.");
+        container.style.display = 'block'; container.innerHTML = "Cargando...";
+        try {
+            const res = await fetch(WEB_APP_URL);
+            const data = await res.json();
+            const filtered = isAdmin ? data : data.filter(h => h.supervisor === selectedSuper);
+            container.innerHTML = filtered.length ? "" : "No hay registros.";
+            filtered.reverse().forEach(h => {
+                const div = document.createElement('div'); div.className = 'history-item';
+                div.innerHTML = `📅 ${new Date(h.fecha).toLocaleDateString()} - 📍 ${h.sector} (${h.indice})`;
+                container.appendChild(div);
+            });
+        } catch (e) { container.innerHTML = "Error."; }
     }
 
     function resetApp() { if(confirm("¿Borrar todo?")) { localStorage.clear(); location.reload(); } }
 
     window.onload = () => { renderItems(); loadLocal(); 
         const t = new Date().toISOString().split('T')[0];
-        document.getElementById('f_insp').value = t;
-        document.getElementById('f_cierre_real').value = t;
+        if(!document.getElementById('f_insp').value) document.getElementById('f_insp').value = t;
+        if(!document.getElementById('f_cierre_real').value) document.getElementById('f_cierre_real').value = t;
     };
 </script>
 </body>

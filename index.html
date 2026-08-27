@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dohm S.A. - Gestión Integral SHMA</title>
+    <title>Dohm S.A. - Gestión SHMA</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; --text: #333; --white: #ffffff; --danger: #e74c3c; --success: #27ae60; --na: #95a5a6; --warning: #f39c12; }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
+        
         header { background: var(--primary); color: white; padding: 15px; text-align: center; }
         header strong { font-size: 1.4rem; }
-        header small { opacity: 0.9; font-size: 1.1rem; font-weight: bold; display: block; margin-top: 5px; }
+        header small { opacity: 0.9; font-size: 1.2rem; font-weight: bold; display: block; margin-top: 5px; color: #fff; }
         
         .tabs { display: flex; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #ddd; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: bold; color: #7f8c8d; font-size: 0.65rem; text-transform: uppercase; white-space: nowrap; }
@@ -22,30 +23,29 @@
         h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 8px; text-transform: uppercase; }
         
         .field { margin-bottom: 12px; }
-        label { display: block; font-size: 0.95rem; font-weight: bold; margin-bottom: 4px; color: #444; }
+        label { display: block; font-size: 1rem; font-weight: bold; margin-bottom: 4px; color: #444; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1.1rem; background: #fff; color: #000; }
         input:disabled, select:disabled, textarea:disabled { background: #e9ecef !important; color: #666 !important; }
 
-        /* INSPECCIÓN */
-        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; border-bottom: 1px solid #f2f2f2; gap: 8px; min-height: 55px; }
-        .item-desc { flex: 1; font-size: 0.85rem; line-height: 1.2; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        /* INSPECCIÓN - 2 RENGLONES */
+        .check-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; border-bottom: 1px solid #f2f2f2; gap: 8px; min-height: 60px; }
+        .item-desc { flex: 1; font-size: 0.9rem; line-height: 1.2; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
         .item-controls { display: flex; gap: 4px; flex-shrink: 0; }
-        .btn-status { border: 1px solid #ccc; height: 28px; width: 28px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
+        .btn-status { border: 1px solid #ccc; height: 30px; width: 30px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; background: #fff; font-weight: bold; }
         .active-ok { background: var(--success) !important; color: white; border-color: var(--success); }
         .active-na { background: var(--na) !important; color: white; border-color: var(--na); }
-        .input-desvio { width: 34px; text-align: center; border: 1px solid #ccc; height: 28px; border-radius: 3px; font-size: 0.9rem; padding: 0; }
-        .is-fail-row { background-color: #f8d7da !important; }
+        .input-desvio { width: 38px; text-align: center; border: 1px solid #ccc; height: 30px; border-radius: 3px; font-size: 1rem; padding: 0; }
 
         /* EPP */
-        .btn-delete-epp { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; cursor: pointer; position: absolute; top: 8px; right: 8px; }
+        .btn-delete-epp { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; cursor: pointer; position: absolute; top: 8px; right: 8px; }
         .epp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 12px; }
         .epp-box { background: #f9f9f9; padding: 4px; border-radius: 4px; border: 1px solid #eee; text-align: center; }
-        .epp-box label { font-size: 0.65rem; color: #777; margin-bottom: 2px; }
+        .epp-box label { font-size: 0.6rem; color: #777; margin-bottom: 2px; }
         .epp-box select { padding: 3px; font-size: 0.9rem; height: auto; }
 
         /* FOTOS Y BOTONES */
         .photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; max-height: 220px; object-fit: contain; background: #eee; display: none; }
-        .btn-action { background: #6c757d; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 6px; cursor: pointer; font-size: 1rem; display: none; }
+        .btn-action { background: #6c757d; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 8px; cursor: pointer; font-size: 1rem; display: none; }
         .btn-enabled { display: block !important; background: var(--success) !important; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         /* FOOTER CENTRADO */
@@ -55,8 +55,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .no-pdf { display: block; }
-        .history-item { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; background: #fff; cursor: pointer; }
-        .legend { font-size: 0.65rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; }
+        .legend { font-size: 0.7rem; background: #ebf2f7; padding: 6px; border-radius: 6px; border: 1px solid #d1dbe5; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -64,7 +63,7 @@
 <div id="capture-area">
     <header>
         <strong>DOHM S.A.</strong><br>
-        <small>Inspección de Seguridad y Medio Ambiente</small>
+        <small>Inspección SHMA</small>
     </header>
 
     <nav class="tabs no-pdf">
@@ -84,7 +83,7 @@
                 <div class="field">
                     <label>Supervisor</label>
                     <select id="c_super" onchange="handleAdminSelect(this); saveLocal()">
-                        <option value="">Seleccione Supervisor...</option>
+                        <option value="">Seleccione...</option>
                         <option value="Admin">⭐ Administrador</option>
                         <option>Cejas Leonardo</option><option>Gerez Jonatan</option><option>Gil Miguel</option>
                         <option>Godoy Julio</option><option>Liguori David</option><option>Luchetta Lucas</option>
@@ -118,6 +117,7 @@
         <!-- OPORTUNIDADES -->
         <div id="t4" class="tab-content">
             <div class="card">
+                <h3>Análisis de Desvíos</h3>
                 <div class="field"><label>Actitudes/Condiciones Inseguras Detectadas</label><textarea rows="3" id="c_inseguras" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Medidas Correctivas Propuestas</label><textarea rows="3" id="c_correctivas" oninput="saveLocal()"></textarea></div>
                 <div class="field"><label>Observaciones Generales</label><textarea rows="3" id="c_obs" oninput="saveLocal()"></textarea></div>
@@ -137,17 +137,16 @@
         <div id="t5" class="tab-content">
             <div class="card">
                 <h3>Desvío hallado</h3>
-                <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-hallado', 'btn-guardar-insp')">
+                <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-hallado', 'btn-guardar-drive')">
                 <img id="img-hallado" class="photo-preview">
-                <button id="btn-guardar-insp" class="btn-action" onclick="saveToDrive('GUARDADA')">GUARDAR INSPECCIÓN</button>
+                <button id="btn-guardar-drive" class="btn-action" onclick="saveToDrive('GUARDADA')">GUARDAR INSPECCIÓN</button>
             </div>
             <div class="card">
                 <h3>Desvío corregido</h3>
-                <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-corregido', 'btn-cerrar-op')">
+                <input type="file" accept="image/*" class="no-pdf" onchange="handlePhoto(this, 'img-corregido', 'btn-cierre-pdf')">
                 <img id="img-corregido" class="photo-preview">
-                <button id="btn-cerrar-op" class="btn-action" onclick="saveToDrive('CERRADA', true)">CIERRE DE OPORTUNIDAD (PDF)</button>
+                <button id="btn-cierre-pdf" class="btn-action" onclick="saveToDrive('CERRADA', true)">CIERRE DE OPORTUNIDAD (PDF)</button>
             </div>
-            <button class="no-pdf" onclick="resetApp()" style="margin-top:20px; border:none; background:none; color:red; font-size:0.7rem; width:100%">REINICIAR INSPECCIÓN</button>
         </div>
     </div>
 </div>
@@ -198,28 +197,28 @@
         { id: 32, c: "Actitudes Inseguras", d: "Exposicion de pies / piernas (golpes)", p: 30, x: false },
         { id: 33, c: "Actitudes Inseguras", d: "Area de trabajo sin definir o desconocida", p: 30, x: false },
         { id: 34, c: "Condiciones Inseguras", d: "Andamio amarrado incorrectamente (x)", p: 30, x: true },
-        { id: 35, c: "Condiciones Inseguras", d: "Instalacion electrica deficiente (x)", p: 30, x: true },
-        { id: 36, c: "Condiciones Inseguras", d: "Tableros portatiles sin proteccion diferencial", p: 20, x: false },
+        { id: 35, c: "Condiciones Inseguras", d: "Instalación eléctrica deficiente (x)", p: 30, x: true },
+        { id: 36, c: "Condiciones Inseguras", d: "Tableros portátiles sin protección diferencial", p: 20, x: false },
         { id: 37, c: "Condiciones Inseguras", d: "Herramientas deterioradas", p: 10, x: false },
         { id: 38, c: "Condiciones Inseguras", d: "Mangueras oxicorte deterioradas", p: 20, x: false },
-        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin valvula de seguridad (x)", p: 20, x: true },
-        { id: 40, c: "Condiciones Inseguras", d: "Maquinas herramientas sin proteccion (x)", p: 15, x: true },
-        { id: 41, c: "Condiciones Inseguras", d: "Excavacion sin señalizar / vallar (x)", p: 20, x: true },
+        { id: 39, c: "Condiciones Inseguras", d: "Equipo oxicorte sin válvula de seguridad (x)", p: 20, x: true },
+        { id: 40, c: "Condiciones Inseguras", d: "Máquinas herramientas sin protección (x)", p: 15, x: true },
+        { id: 41, c: "Condiciones Inseguras", d: "Excavación sin señalizar / vallar (x)", p: 20, x: true },
         { id: 42, c: "Condiciones Inseguras", d: "Equipos / sistemas de izaje deficientes (x)", p: 50, x: true },
         { id: 43, c: "Condiciones Inseguras", d: "Accesos inadecuados a equipos (x)", p: 50, x: true },
         { id: 44, c: "Condiciones Inseguras", d: "Cilindros de gases no asegurados", p: 15, x: false },
-        { id: 45, c: "Condiciones Inseguras", d: "Depositos de combustibles inadecuados (x)", p: 20, x: true },
+        { id: 45, c: "Condiciones Inseguras", d: "Depósitos de combustibles inadecuados (x)", p: 20, x: true },
         { id: 46, c: "Condiciones Inseguras", d: "Falta de orden y limpieza", p: 10, x: false },
-        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en areas (x)", p: 10, x: true },
-        { id: 48, c: "Medio Ambiente", d: "Inadecuada disposicion de residuos (x)", p: 20, x: true },
-        { id: 49, c: "Medio Ambiente", d: "Falta de medios para contencion de derrames", p: 15, x: false },
+        { id: 47, c: "Medio Ambiente", d: "Presencia de derrames en áreas (x)", p: 10, x: true },
+        { id: 48, c: "Medio Ambiente", d: "Inadecuada disposición de residuos (x)", p: 20, x: true },
+        { id: 49, c: "Medio Ambiente", d: "Falta de medios para contención de derrames", p: 15, x: false },
         { id: 50, c: "Medio Ambiente", d: "Desconocimiento aspectos ambientales", p: 15, x: false },
         { id: 51, c: "Transporte", d: "Exceso de velocidad (x)", p: 50, x: true },
         { id: 52, c: "Transporte", d: "Sin alarma de retroceso (x)", p: 50, x: true },
         { id: 53, c: "Transporte", d: "Traslado inadecuado de personal (x)", p: 30, x: true },
-        { id: 54, c: "Accidentologia", d: "Accidente o primer auxilio riesgo bajo", p: 2.5, x: false },
-        { id: 55, c: "Accidentologia", d: "Accidente o primer auxilio riesgo medio", p: 5, x: false },
-        { id: 56, c: "Accidentologia", d: "Accidente o primer auxilio riesgo alto", p: 10, x: false }
+        { id: 54, c: "Accidentología", d: "Accidente o primer auxilio riesgo bajo", p: 2.5, x: false },
+        { id: 55, c: "Accidentología", d: "Accidente o primer auxilio riesgo medio", p: 5, x: false },
+        { id: 56, c: "Accidentología", d: "Accidente o primer auxilio riesgo alto", p: 10, x: false }
     ];
 
     function calc() {
@@ -237,29 +236,48 @@
         document.getElementById('res-st').innerText = st.toFixed(2);
         resIdx.innerText = idx.toFixed(1);
 
-        // NUEVA LÓGICA DE COLORES Y PLAZOS
         const fr = document.getElementById('f_restringida');
         let hoy = new Date();
         
         if (idx > 50) {
-            resIdx.style.color = "var(--danger)"; // Rojo
+            resIdx.style.color = "var(--danger)";
             hoy.setHours(hoy.getHours() + 24);
         } else if (idx >= 20) {
-            resIdx.style.color = "var(--warning)"; // Amarillo/Naranja
+            resIdx.style.color = "var(--warning)";
             hoy.setDate(hoy.getDate() + 15);
         } else {
-            resIdx.style.color = "var(--success)"; // Verde
+            resIdx.style.color = "var(--success)";
             hoy.setMonth(hoy.getMonth() + 2);
         }
-        
         if(!isAdmin) fr.value = hoy.toISOString().split('T')[0];
+    }
+
+    function handlePhoto(input, imgId, btnId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById(imgId);
+                img.src = e.target.result; img.style.display = 'block';
+                document.getElementById(btnId).classList.add('btn-enabled');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function addWorker() {
+        const container = document.getElementById('workers-container');
+        const div = document.createElement('div');
+        div.className = 'card worker-card';
+        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
+        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
+        div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
+        container.appendChild(div);
     }
 
     function handleAdminSelect(sel) {
         if(sel.value === 'Admin') {
-            if(prompt("Clave Administrador (Admin.Dohm):") === ADMIN_PASS) {
-                isAdmin = true; document.getElementById('f_restringida').disabled = false;
-            } else { sel.value = ""; alert("Clave Incorrecta"); isAdmin = false; }
+            if(prompt("Clave Administrador:") === ADMIN_PASS) { isAdmin = true; document.getElementById('f_restringida').disabled = false; }
+            else { sel.value = ""; alert("Clave Incorrecta"); }
         } else { isAdmin = false; document.getElementById('f_restringida').disabled = true; }
         calc();
     }
@@ -294,54 +312,6 @@
         calc();
     }
 
-    function handlePhoto(input, imgId, btnId) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.getElementById(imgId);
-                img.src = e.target.result; img.style.display = 'block';
-                document.getElementById(btnId).classList.add('btn-enabled');
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    async function saveToDrive(estado, downloadPDF = false) {
-        if(!WEB_APP_URL || WEB_APP_URL.includes("TU_URL")) return alert("Configura la URL de Drive");
-        const payload = {
-            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
-            operarios: document.getElementById('n_ops').value, subtotal: document.getElementById('res-st').innerText,
-            indice: document.getElementById('res-idx').innerText, inseguras: document.getElementById('c_inseguras').value,
-            correctivas: document.getElementById('c_correctivas').value, observaciones: document.getElementById('c_obs').value,
-            fecha_estimada: document.getElementById('f_restringida').value, fecha_real: document.getElementById('f_cierre_real').value,
-            estado: estado
-        };
-        try {
-            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            alert("Base de Datos sincronizada.");
-            if(estado === 'GUARDADA') lockApp();
-            if(downloadPDF) makePDF();
-        } catch (e) { alert("Error"); }
-    }
-
-    function lockApp() {
-        isLocked = true;
-        document.getElementById('lock-status').innerText = "MODO: CONSULTA (BLOQUEADO)";
-        document.getElementById('lock-status').style.color = "red";
-        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
-        document.getElementById('add-op-btn').style.display = 'none';
-        saveLocal();
-    }
-
-    function addWorker() {
-        const div = document.createElement('div');
-        div.className = 'card worker-card';
-        const epps = ['Casco','Guante','Auditiva','Facial','Calzado','Arnés','Ropa','Ocular','Respir.'];
-        let grid = epps.map(e => `<div class="epp-box"><label>${e}</label><select class="epp-sel" onchange="saveLocal()"><option>S</option><option>I</option><option>NA</option></select></div>`).join('');
-        div.innerHTML = `<button class="btn-delete-epp no-pdf" onclick="this.parentElement.remove(); saveLocal()">ELIMINAR</button><h3>Operario</h3><input type="text" class="w-name" placeholder="Nombre completo" oninput="saveLocal()"><div class="epp-grid">${grid}</div>`;
-        document.getElementById('workers-container').appendChild(div);
-    }
-
     async function fetchHistory() {
         const selectedSuper = document.getElementById('c_super').value;
         const container = document.getElementById('hist-container');
@@ -353,12 +323,35 @@
             const filtered = isAdmin ? data : data.filter(h => h.supervisor === selectedSuper);
             container.innerHTML = filtered.length ? "" : "No hay registros.";
             filtered.reverse().forEach(h => {
-                const div = document.createElement('div');
-                div.className = 'history-item';
+                const div = document.createElement('div'); div.className = 'history-item';
                 div.innerHTML = `📅 ${new Date(h.fecha).toLocaleDateString()} - 📍 ${h.sector} ${isAdmin ? '👤 '+h.supervisor : ''}`;
                 container.appendChild(div);
             });
         } catch (e) { container.innerHTML = "Error de conexión."; }
+    }
+
+    async function saveToDrive(estado, downloadPDF = false) {
+        const payload = {
+            sector: document.getElementById('c_sector').value, supervisor: document.getElementById('c_super').value,
+            operarios: document.getElementById('n_ops').value, subtotal: document.getElementById('res-st').innerText,
+            indice: document.getElementById('res-idx').innerText, inseguras: document.getElementById('c_inseguras').value,
+            correctivas: document.getElementById('c_correctivas').value, observaciones: document.getElementById('c_obs').value,
+            fecha_estimada: document.getElementById('f_restringida').value, fecha_real: document.getElementById('f_cierre_real').value,
+            estado: estado
+        };
+        try {
+            await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            alert("Guardado en Drive.");
+            if(estado === 'GUARDADA') lockApp();
+            if(downloadPDF) makePDF();
+        } catch (e) { alert("Error"); }
+    }
+
+    function lockApp() {
+        isLocked = true;
+        document.querySelectorAll('input, select, textarea').forEach(i => { if(i.id !== 'f_cierre_real' && i.type !== 'file') i.disabled = true; });
+        document.getElementById('add-op-btn').style.display = 'none';
+        saveLocal();
     }
 
     function saveLocal() {
@@ -389,7 +382,7 @@
         html2pdf().set({ margin: 0.15, filename: 'Inspeccion_Dohm.pdf', html2canvas: { scale: 2 } }).from(document.getElementById('capture-area')).save().then(() => location.reload());
     }
 
-    function resetApp() { if(confirm("¿Borrar todo e iniciar nueva?")) { localStorage.clear(); location.reload(); } }
+    function resetApp() { if(confirm("¿Borrar todo?")) { localStorage.clear(); location.reload(); } }
 
     window.onload = () => { renderItems(); loadLocal(); 
         const t = new Date().toISOString().split('T')[0];
